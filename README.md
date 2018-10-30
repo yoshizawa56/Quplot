@@ -1,1 +1,2 @@
 # PyQtPlot
+PyQtによるmatplotlibのGUIラッパーアプリ
