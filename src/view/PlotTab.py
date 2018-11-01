@@ -3,7 +3,7 @@
 # +ボタンでタブを自由に増やせるtabWidget
 from PyQt5.QtWidgets import QWidget, QTabWidget, QPushButton
 
-from GeneralSetting import GeneralSetting
+from .PlotField import PlotField
 
 
 class PlotTab(QTabWidget):
@@ -19,13 +19,13 @@ class PlotTab(QTabWidget):
         addButton.clicked.connect(self.add_tab)
         self.setCornerWidget(addButton)
 
-        self.insertTab(0, GeneralSetting(), 'Plot1')
+        self.insertTab(0, PlotField(), 'Plot1')
         self.count = 1
 
     
     def add_tab(self):
         self.count += 1
-        self.insertTab(self.count, GeneralSetting(), 'Plot' + str(self.count))
+        self.insertTab(self.count, PlotField(), 'Plot' + str(self.count))
 
     def delete_tab(self, index):
         if self.count > 1:
