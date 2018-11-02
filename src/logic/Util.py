@@ -1,16 +1,16 @@
 '''
-utilクラス
+Utilクラス
 '''
 
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "01 November 2018"
+__date__    = "02 November 2018"
 
 import json
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
 
-class util:
+class Util:
     #入力領域にデフォルトの値をセット
     @staticmethod
     def set_default(default_config_dict, target_list):
@@ -51,12 +51,14 @@ class util:
         layout = QHBoxLayout()
         for widget in widget_list:
             layout.addWidget(widget)
+        layout.addStretch()
         return layout
 
     #Widgetのリストを受け取り、QVBoxLayoutにセットして返す
     @staticmethod
     def Vlayout(widget_list):
         layout = QVBoxLayout()
+        layout.setSpacing(0.2)
         for widget in widget_list:
             layout.addWidget(widget)
         return layout
@@ -65,15 +67,15 @@ class util:
     @staticmethod
     def Hbox(widget_list):
         Hbox_widget = QWidget()
-        Hbox_widget.setLayout(Hlayout(widget_list))
-        return Hbox_Widget
+        Hbox_widget.setLayout(Util.Hlayout(widget_list))
+        return Hbox_widget
 
     #Widgetのリストを受け取り、QVBoxLayoutをセットしたWidgetを返す
     @staticmethod
     def Vbox(widget_list):
         Vbox_widget = QWidget()
-        Vbox_widget.setLayout(Vlayout(widget_list))
-        return Vbox_Widget
+        Vbox_widget.setLayout(Util.Vlayout(widget_list))
+        return Vbox_widget
 
 
 
