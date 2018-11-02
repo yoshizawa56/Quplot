@@ -1,19 +1,27 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# +ボタンでタブを自由に増やせるtabWidget
-from PyQt5.QtWidgets import QWidget, QTabWidget, QPushButton
+'''
++ボタンでタブを自由に増やせるtabWidget
+'''
 
+__author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
+__status__ = "production"
+__version__ = "0.1.0"
+__date__    = "02 November 2018"
+
+
+from PyQt5.QtWidgets import QTabWidget, QPushButton
 from .DataField import DataField
 
 
 class DataTab(QTabWidget):
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent=parent)
+        super().__init__(self, parent=parent)
         self.setTabsClosable(True)
         self.setMovable(True)
         self.tabCloseRequested.connect(self.delete_tab)
         self.setup_ui()
-        
+
     def setup_ui(self):
         addButton = QPushButton('+', self)
         addButton.clicked.connect(self.add_tab)

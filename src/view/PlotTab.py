@@ -1,6 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# +ボタンでタブを自由に増やせるtabWidget
+
+'''
++ボタンでタブを自由に増やせるtabWidget
+'''
+
+__author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
+__status__ = "production"
+__version__ = "0.1.0"
+__date__    = "01 November 2018"
+
 from PyQt5.QtWidgets import QWidget, QTabWidget, QPushButton
 
 from .PlotField import PlotField
