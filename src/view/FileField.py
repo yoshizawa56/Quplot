@@ -17,7 +17,12 @@ import os
 
 class FileField(QWidget):
     def __init__(self, parent=None):
-        super().__init__(self, parent=parent)
+        super().__init__()
+        self.parent = parent
+
+        #DataTabでbase_dirが定義されていれば、それをbase_dirとして利用
+        if hasattr(self.parent, 'base_dir'):
+            self.base_dir = self.parent.base_dir
         self.setup_ui()
 
         #referenceボタンクリック時
@@ -27,6 +32,7 @@ class FileField(QWidget):
         #ファイル名入力
         file_label = QLabel('File name : ')
         self.file_edit = QLineEdit()
+        self.file_edit.setMinimumWidth(350)
         self.file_reference = QPushButton('Reference')
         file_widgets = [
             file_label,
@@ -34,48 +40,31 @@ class FileField(QWidget):
             self.file_reference
         ]
 
-        # file_layout = QHBoxLayout()
-        # file_layout.addWidget(file_label)
-        # file_layout.addWidget(self.file_edit)
-        # file_layout.addWidget(self.file_reference)
-        # file_widget = QWidget()
-        # file_widget.setLayout(file_layout)
-
         #凡例設定
         legend_label = QLabel('Legend : ')
         self.legend_edit = QLineEdit()
-        legend_style_label = QLabel('Format : ')
+        self.legend_edit.setMinimumWidth(300)
         self.legend_combo = QComboBox()
-        self.legend_combo.addItem('text')
         self.legend_combo.addItem('LaTeX')
+        self.legend_combo.addItem('Text')
+        self.legend_combo.setMinimumWidth(80)
         legend_font_label = QLabel('Fontsize : ')
         self.legend_font_edit = QLineEdit()
         self.legend_font_edit.setMaximumWidth(25)
         legend_widgets = [
             legend_label,
             self.legend_edit,
-            legend_style_label,
             self.legend_combo,
             legend_font_label,
             self.legend_font_edit
         ]
-
-        # legend_layout = QHBoxLayout()
-        # legend_layout.addWidget(legend_label)
-        # legend_layout.addWidget(self.legend_edit)
-        # legend_layout.addWidget(legend_style_label)
-        # legend_layout.addWidget(self.legend_combo)
-        # legend_layout.addWidget(legend_font_label)
-        # legend_layout.addWidget(self.legend_font_edit)
-        # legend_widget = QWidget()
-        # legend_widget.setLayout(legend_layout)
 
         #linestyle設定
         line_label = QLabel('Linestyle : ')
         self.line_style_combo = QComboBox()
         self.set_line_style_combo()
         line_color_label = QLabel('Color : ')
-        self.line_color_combo()
+        self.line_color_combo = QComboBox()
         self.set_color_combo(self.line_color_combo)
         line_width_label = QLabel('Width : ')
         self.line_width_edit = QLineEdit()
@@ -94,11 +83,11 @@ class FileField(QWidget):
         self.marker_style_combo = QComboBox()
         self.set_marker_style_combo()
         marker_color_label = QLabel('Color : ')
-        self.marker_color_combo()
+        self.marker_color_combo = QComboBox()
         self.set_color_combo(self.marker_color_combo)
         marker_size_label = QLabel('Size : ')
-        self.marker_size_edit = QmarkerEdit()
-        self.marker_size_edit.setMaximumWidth(25)
+        self.marker_size_edit = QLineEdit()
+        self.marker_size_edit.setFixedWidth(25)
         marker_widgets = [
             marker_label,
             self.marker_style_combo,
@@ -110,37 +99,51 @@ class FileField(QWidget):
 
         #selfに各子Widgetを割り当てる
         self.setLayout(
-            Vlayout(
+            util.Vlayout(
                 [
-                    Hbox(file_widgets),
-                    Hbox(legend_widgets),
-                    Hbox(linestyle_widgets),
-                    Hbox(marker_widgets)
+                    util.Hbox(file_widgets),
+                    util.Hbox(legend_widgets),
+                    util.Hbox(linestyle_widgets),
+                    util.Hbox(marker_widgets)
                 ]
             )
         )
 
     def set_line_style_combo(self):
-        self.line_combo.addItem('-')
-        self.line_combo.addItem('--')
-        self.line_combo.addItem('-.')
+        self.line_style_combo.addItem('None')
+        self.line_style_combo.addItem('-')
+        self.line_style_combo.addItem('--')
+        self.line_style_combo.addItem('-.')
+        self.line_style_combo.setCurrentIndex(1)
+        self.line_style_combo.setMinimumWidth(80)
+        #TODO linestyleを追加
+        #TODO userDataの追加
+
+    def set_marker_style_combo(self):
+        self.marker_style_combo.addItem('None')
+        self.marker_style_combo.addItem('o')
+        self.marker_style_combo.addItem('x')
+        self.marker_style_combo.addItem('^')
+        self.marker_style_combo.setMinimumWidth(80)
         #TODO linestyleを追加
         #TODO userDataの追加
 
     def set_color_combo(self, combo):
-        combo.addItem('Block')
+        combo.addItem('Auto')
+        combo.addItem('Black')
+        combo.setMinimumWidth(120)
         #TODO colorを追加
         #TODO userDataの追加
 
     def file_open(self):
         #TODO 始点となるディレクトリをどうするか
-        self.base_dir = '~'
-        filename = QFileDialog.getOpenFileName(self, "Open file", base_dir)
+        self.base_dir = '~/'
+        filename = QFileDialog.getOpenFileName(self, "Open file", self.base_dir)
         if(filename != ''):
             self.file_edit.setText(filename[0])
             #次回のファイル
             #TODO タブ間でbase_dirを共有したい
-            self.base_dir = os.path.dirname(filename[0])
+            self.parent.broadcast_base_dir(os.path.dirname(filename[0]))
 
     #TODO 修正
     def config_dict(self):

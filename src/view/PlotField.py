@@ -10,16 +10,17 @@ __status__ = "production"
 __version__ = "0.1.0"
 __date__    = "02 November 2018"
 
-from PyQt5.QtWidgets import QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QPushButton
 
 from .GeneralSetting import GeneralSetting
 from .DataTab import DataTab
+from .AxisSetting import AxisSetting
 from ..logic.util import util
 
 
 class PlotField(QWidget):
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent=parent)
+        super().__init__()
         self.setup_ui()
 
         #TODO connect系の処理
@@ -37,24 +38,29 @@ class PlotField(QWidget):
         #左側
         self.setting = GeneralSetting()
         self.data_tab = DataTab()
+        self.x_axis = AxisSetting('X')
+        self.y_axis = AxisSetting('Y')
+        self.plot_button = QPushButton('Plot!!')
         #TODO Widgetの追加
         left_widgets = [
-            self.setting,
-            self.data_tab
+            #self.setting,
+            self.data_tab,
+            util.Hbox([self.x_axis, self.y_axis]),
+            self.plot_button
         ]
         
         #右側
         #TODO Widgetの追加
         right_widgets = [
-
+            self.setting
         ]
 
         #子Widgetをセット
         self.setLayout(
-            Hlayout(
+            util.Hlayout(
                 [
-                    Vbox(left_widgets),
-                    Vbox(right_widgets)
+                    util.Vbox(left_widgets),
+                    util.Vbox(right_widgets)
                 ]
             )
         )

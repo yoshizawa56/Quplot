@@ -16,7 +16,7 @@ from .DataField import DataField
 
 class DataTab(QTabWidget):
     def __init__(self, parent=None):
-        super().__init__(self, parent=parent)
+        super().__init__()
         self.setTabsClosable(True)
         self.setMovable(True)
         self.tabCloseRequested.connect(self.delete_tab)
@@ -27,16 +27,21 @@ class DataTab(QTabWidget):
         addButton.clicked.connect(self.add_tab)
         self.setCornerWidget(addButton)
 
-        self.insertTab(0, DataField(), 'Data1')
+        self.insertTab(0, DataField(self), 'Data1')
         self.count = 1
+        self.setFixedSize(650, 340)
 
 
     def add_tab(self):
         self.count += 1
-        self.insertTab(self.count, DataField(), 'Data' + str(self.count))
+        self.insertTab(self.count, DataField(self), 'Data' + str(self.count))
 
     def delete_tab(self, index):
         if self.count > 1:
             self.removeTab(index)
             self.count -= 1
 
+    def broadcast_base_dir(self, base_dir):
+        self.base_dir = base_dir
+        for i in range(self.count):
+            self.widget(i).data.base_dir = base_dir

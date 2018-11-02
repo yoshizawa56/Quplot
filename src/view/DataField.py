@@ -19,7 +19,8 @@ from .FunctionField import FunctionField
 
 class DataField(QWidget):
     def __init__(self, parent=None):
-        super().__init__(self, parent=parent)
+        super().__init__()
+        self.parent = parent
         self.setup_ui()
 
         #データソースの変更
@@ -27,7 +28,7 @@ class DataField(QWidget):
 
     def setup_ui(self):
         #データソースの種類の選択領域
-        label = Qlabel('Data source : ')
+        label = QLabel('Data source : ')
         self.data_type = QComboBox()
         self.data_type.addItem('File')
         self.data_type.addItem('Function')
@@ -36,32 +37,30 @@ class DataField(QWidget):
             self.data_type
         ]
 
-        # type_layout = QHBoxLayout()
-        # type_layout.addWidget(label)
-        # type_layout.addWidget(self.data_type)
-        # data_widget = QWidget()
-        # data_widget.setLayout(type_layout)
-
         #データソース入力領域
-        self.data = FileField()
+        self.data = FileField(self.parent)
 
         #データソース入力領域と結合
-        self.setLayout(
-            Vlayout(
-                [
-                    Hbox(type_layout),
-                    self.data
-                ]
-            )
+        self.layout = util.Vlayout(
+            [
+                util.Hbox(type_widgets),
+                self.data
+            ]
         )
+        self.setLayout(self.layout)
 
     #データソースの種類変更
     def data_type_changed(self):
+        #既存Widgetを削除
         self.layout.removeWidget(self.data)
-        if self.data_type.currentIndex == 0:
-            self.data = FileField()
+        self.data.deleteLater()
+        self.data = None
+        
+        #新Widgetを追加
+        if self.data_type.currentIndex() == 0:
+            self.data = FileField(self.parent)
         else:
-            self.data = FunctionField()
+            self.data = FunctionField(self.parent)
 
         self.layout.addWidget(self.data)
 

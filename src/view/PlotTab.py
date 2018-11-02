@@ -8,7 +8,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "01 November 2018"
+__date__    = "02 November 2018"
 
 from PyQt5.QtWidgets import QWidget, QTabWidget, QPushButton
 
@@ -17,7 +17,7 @@ from .PlotField import PlotField
 
 class PlotTab(QTabWidget):
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent=parent)
+        super().__init__()
         self.setTabsClosable(True)
         self.setMovable(True)
         self.tabCloseRequested.connect(self.delete_tab)
@@ -30,6 +30,8 @@ class PlotTab(QTabWidget):
 
         self.insertTab(0, PlotField(), 'Plot1')
         self.count = 1
+
+        self.setFixedSize(1100, 700)
 
     
     def add_tab(self):
