@@ -31,7 +31,9 @@ class DataField(QWidget):
         label = QLabel('Data source : ')
         self.data_type = QComboBox()
         self.data_type.addItem('File')
+        self.data_type.setItemData(0, 'File')
         self.data_type.addItem('Function')
+        self.data_type.setItemData(1, 'Function')
         self.data_type.setMinimumWidth(150)
         type_widgets = [
             label,
@@ -69,9 +71,9 @@ class DataField(QWidget):
 
     def config_dict(self):
         config = {
-            'data_type' : Util.combo_box(self.data_type)
+            'data_type' : Util.combo_data(self.data_type)
         }
-        config.update(self.data.config_dict)
+        config.update(self.data.config_dict())
 
         return config
 

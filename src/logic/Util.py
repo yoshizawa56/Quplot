@@ -89,7 +89,7 @@ class Util:
     #comboBoxで現在指定されているDataを表示
     @staticmethod
     def combo_data(combo):
-        return combo.itemData(combo.setCurrentIndex())
+        return combo.itemData(combo.currentIndex())
 
 
 

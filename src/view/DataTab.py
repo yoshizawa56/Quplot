@@ -31,10 +31,23 @@ class DataTab(QTabWidget):
         self.count = 1
         self.setFixedSize(600, 340)
 
+    def config_dict(self):
+        config = {}
+        for i in range(self.count):
+            config.update(
+                {'data' + str(i) : self.widget(i).config_dict()}
+            )
+
+        return config
+
+    def set_default_config(self, default_config_dict):
+        for i in range(self.count):
+            self.widget(i).set_default_config(default_config_dict)
 
     def add_tab(self):
         self.count += 1
         self.insertTab(self.count, DataField(self), 'Data' + str(self.count))
+        #self.widget(self.count).set_default_config()
 
     def delete_tab(self, index):
         if self.count > 1:
