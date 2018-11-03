@@ -19,7 +19,18 @@ class GeneralSetting(QWidget):
         super().__init__()
         self.setup_ui()
 
+        #TODO import_buttonをconnect
+
     def setup_ui(self):
+        #importボタン(右端に表示)
+        self.import_button = QPushButton('Import')
+        import_layout = QHBoxLayout()
+        import_layout.addStretch(0)
+        import_layout.addWidget(self.import_button)
+        import_widget = QWidget()
+        import_widget.setLayout(import_layout)
+
+
         #タイトルの編集
         title_label = QLabel('Title : ')
         self.title_edit = QLineEdit()
@@ -64,6 +75,7 @@ class GeneralSetting(QWidget):
         self.setLayout(
             Util.Vlayout(
                 [
+                    import_widget,
                     Util.Hbox(title_widgets),
                     Util.Hbox(legend_widgets),
                     Util.Hbox(tick_widgets)
@@ -71,12 +83,15 @@ class GeneralSetting(QWidget):
             )
         )
 
+    #TODO import_buttonにコネクトするメソッド
+
     def config_dict(self):
         config = {
             'title' : self.title_edit.text(),
             'title_font' : self.title_font_edit.text(),
             'legend_status' : self.legend_checkbox.isChecked(),
-            'legend_position' : self.legend_combo.currentIndex()
+            'legend_position' : self.legend_combo.currentIndex(),
+            'tick_font' : self.tick_edit.text()
         }
 
         return config
@@ -85,7 +100,8 @@ class GeneralSetting(QWidget):
         target_list = [
             ('title_font', self.title_font_edit.setPlaceholderText),
             ('legend_status', self.legend_checkbox.setCheckState),
-            ('legend_position', self.legend_combo.setCurrentIndex)
+            ('legend_position', self.legend_combo.setCurrentIndex),
+            ('tick_font', self.tick_edit.setPlaceholderText
         ]
 
         Util.set_default(default_config_dict, target_list)
