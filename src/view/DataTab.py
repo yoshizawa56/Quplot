@@ -12,6 +12,7 @@ __date__    = "02 November 2018"
 
 from PyQt5.QtWidgets import QTabWidget, QPushButton
 from .DataField import DataField
+from ..logic.Util import Util
 
 
 class DataTab(QTabWidget):
@@ -28,7 +29,7 @@ class DataTab(QTabWidget):
         self.setCornerWidget(addButton)
 
         self.insertTab(0, DataField(self), 'Data1')
-        self.count = 1
+        self.count = 0
         self.setFixedSize(600, 340)
 
     def config_dict(self):
@@ -41,13 +42,13 @@ class DataTab(QTabWidget):
         return config
 
     def set_default_config(self, default_config_dict):
-        for i in range(self.count):
+        for i in range(self.count+1):
             self.widget(i).set_default_config(default_config_dict)
 
     def add_tab(self):
         self.count += 1
-        self.insertTab(self.count, DataField(self), 'Data' + str(self.count))
-        #self.widget(self.count).set_default_config()
+        self.insertTab(self.count, DataField(self), 'Data' + str(self.count+1))
+        self.widget(self.count).set_default_config(Util.load_default_config())
 
     def delete_tab(self, index):
         if self.count > 1:

@@ -10,12 +10,13 @@ __status__ = "production"
 __version__ = "0.1.0"
 __date__    = "02 November 2018"
 
-from PyQt5.QtWidgets import QWidget, QPushButton
+from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog
 
 from .GeneralSetting import GeneralSetting
 from .DataTab import DataTab
 from .AxisSetting import AxisSetting
 from .Canvas import Canvas
+from .SaveFigure import SaveFigure
 from ..logic.Util import Util
 from ..logic.Plot import Plot
 
@@ -27,11 +28,14 @@ class PlotField(QWidget):
 
         #TODO connect系の処理
         self.plot_button.clicked.connect(self.plot)
+        self.setting.export_button.clicked.connect(self.export_plot)
+        #self.setting.import_last_button.clicked.connect(self.import_last_plot)
+        #self.setting.import_button.clicked.connect(self.import_plot)
 
         #テスト用
         d = Util.load_default_config()
-        self.setting.set_default_config(d)
-        
+        self.set_default_config(d)
+
     def setup_ui(self):
         #左側
         self.data_tab = DataTab()
@@ -49,9 +53,11 @@ class PlotField(QWidget):
         #TODO Widgetの追加
         self.setting = GeneralSetting()
         self.canvas = Canvas()
+        self.save_figure = SaveFigure()
         right_widgets = [
             self.setting,
-            self.canvas.canvas
+            self.canvas.canvas,
+            self.save_figure
         ]
 
         #子Widgetをセット
@@ -72,10 +78,14 @@ class PlotField(QWidget):
             self.setting
         ]
 
+    def export_plot(self):
+        filename = QFileDialog.getSaveFileName(self, "Open file")
+        Util.save_export_file(filename[0], self.config_dict())
+
     def config_dict(self):
         config = {}
         for widget in self.widget_list:
-            config.update(widget)
+            config.update(widget.config_dict())
 
         return config
 
@@ -84,4 +94,5 @@ class PlotField(QWidget):
             widget.set_default_config(default_config_dict)
 
     def plot(self):
-        Plot.execute(self.canvas, [])
+        print(self.config_dict())
+        Plot.execute(self.canvas, self.config_dict())
