@@ -32,6 +32,7 @@ class DataField(QWidget):
         self.data_type = QComboBox()
         self.data_type.addItem('File')
         self.data_type.addItem('Function')
+        self.data_type.setMinimumWidth(150)
         type_widgets = [
             label,
             self.data_type
@@ -68,7 +69,7 @@ class DataField(QWidget):
 
     def config_dict(self):
         config = {
-            'data_type' : self.data_type.currentIndex
+            'data_type' : Util.combo_box(self.data_type)
         }
         config.update(self.data.config_dict)
 
@@ -76,11 +77,11 @@ class DataField(QWidget):
 
     def set_default_config(self, default_config_dict):
         target_list = [
-            ('data_type', self.data_type.setCurrentIndex)
+            ('data_type', self.data_type)
         ]
         Util.set_default(default_config_dict, target_list)
 
         #子要素にデフォルト設定を適用
-        self.set_default_config(default_config_dict)
+        self.data.set_default_config(default_config_dict)
 
 
