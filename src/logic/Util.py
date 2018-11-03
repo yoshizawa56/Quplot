@@ -52,6 +52,11 @@ class Util:
 
         return default_config_dict
 
+    @staticmethod
+    def save_export_file(filename, config_dict):
+        with open(filename, 'w') as f:
+            f.write(json.dumps(config_dict))
+
     #Widgetのリストを受け取り、QHBoxLayoutにセットして返す
     @staticmethod
     def Hlayout(widget_list):

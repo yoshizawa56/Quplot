@@ -30,10 +30,8 @@ class DataField(QWidget):
         #データソースの種類の選択領域
         label = QLabel('Data source : ')
         self.data_type = QComboBox()
-        self.data_type.addItem('File')
-        self.data_type.setItemData(0, 'File')
-        self.data_type.addItem('Function')
-        self.data_type.setItemData(1, 'Function')
+        self.data_type.addItem('File', 'File')
+        self.data_type.addItem('Function', 'Function')
         self.data_type.setMinimumWidth(150)
         type_widgets = [
             label,
@@ -66,6 +64,7 @@ class DataField(QWidget):
             self.data = FunctionField(self.parent)
 
         self.layout.addWidget(self.data)
+        self.data.set_default_config(Util.load_default_config())
 
 
 
