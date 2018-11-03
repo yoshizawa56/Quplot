@@ -51,12 +51,22 @@ class GeneralSetting(QWidget):
             self.legend_combo
         ]
 
+        #Tick labelの設定
+        tick_label = QLabel('Tick label fontsize : ')
+        self.tick_edit = QLineEdit()
+        self.tick_edit.setFixedWidth(25)
+        tick_widgets = [
+            tick_label,
+            self.tick_edit
+        ]
+
         #selfに各子Widgetを割り当てる
         self.setLayout(
             Util.Vlayout(
                 [
                     Util.Hbox(title_widgets),
-                    Util.Hbox(legend_widgets)
+                    Util.Hbox(legend_widgets),
+                    Util.Hbox(tick_widgets)
                 ]
             )
         )
