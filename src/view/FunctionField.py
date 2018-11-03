@@ -13,11 +13,11 @@ __date__    = "02 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QCheckBox, QComboBox)
-from ..logic.util import util
+from ..logic.Util import Util
 
 class FunctionField(QWidget):
     def __init__(self, parent=None):
-        super().__init__(self, parent=parent)
+        super().__init__()
         self.setup_ui()
 
     def setup_ui(self):
@@ -50,6 +50,6 @@ class FunctionField(QWidget):
             ('legend_position', self.legend_combo.setCurrentIndex)
         ]
 
-        util.set_default(default_config_dict, target_list)
+        Util.set_default(default_config_dict, target_list)
 
 

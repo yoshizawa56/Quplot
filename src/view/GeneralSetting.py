@@ -12,7 +12,7 @@ __date__    = "02 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QCheckBox, QComboBox)
-from ..logic.util import util
+from ..logic.Util import Util
 
 class GeneralSetting(QWidget):
     def __init__(self, parent=None):
@@ -53,10 +53,10 @@ class GeneralSetting(QWidget):
 
         #selfに各子Widgetを割り当てる
         self.setLayout(
-            util.Vlayout(
+            Util.Vlayout(
                 [
-                    util.Hbox(title_widgets),
-                    util.Hbox(legend_widgets)
+                    Util.Hbox(title_widgets),
+                    Util.Hbox(legend_widgets)
                 ]
             )
         )
@@ -78,6 +78,6 @@ class GeneralSetting(QWidget):
             ('legend_position', self.legend_combo.setCurrentIndex)
         ]
 
-        util.set_default(default_config_dict, target_list)
+        Util.set_default(default_config_dict, target_list)
 
 

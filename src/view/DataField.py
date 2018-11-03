@@ -13,7 +13,7 @@ __date__    = "02 November 2018"
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout,
         QLabel, QHBoxLayout, QComboBox)
 
-from ..logic.util import util
+from ..logic.Util import Util
 from .FileField import FileField
 from .FunctionField import FunctionField
 
@@ -41,9 +41,9 @@ class DataField(QWidget):
         self.data = FileField(self.parent)
 
         #データソース入力領域と結合
-        self.layout = util.Vlayout(
+        self.layout = Util.Vlayout(
             [
-                util.Hbox(type_widgets),
+                Util.Hbox(type_widgets),
                 self.data
             ]
         )
@@ -78,7 +78,7 @@ class DataField(QWidget):
         target_list = [
             ('data_type', self.data_type.setCurrentIndex)
         ]
-        util.set_default(default_config_dict, target_list)
+        Util.set_default(default_config_dict, target_list)
 
         #子要素にデフォルト設定を適用
         self.set_default_config(default_config_dict)

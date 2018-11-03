@@ -29,7 +29,7 @@ class DataTab(QTabWidget):
 
         self.insertTab(0, DataField(self), 'Data1')
         self.count = 1
-        self.setFixedSize(650, 340)
+        self.setFixedSize(600, 340)
 
 
     def add_tab(self):

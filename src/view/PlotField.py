@@ -15,7 +15,9 @@ from PyQt5.QtWidgets import QWidget, QPushButton
 from .GeneralSetting import GeneralSetting
 from .DataTab import DataTab
 from .AxisSetting import AxisSetting
-from ..logic.util import util
+from .Canvas import Canvas
+from ..logic.Util import Util
+from ..logic.Plot import Plot
 
 
 class PlotField(QWidget):
@@ -24,6 +26,7 @@ class PlotField(QWidget):
         self.setup_ui()
 
         #TODO connect系の処理
+        self.plot_button.clicked.connect(self.plot)
 
         #テスト用
         d = {
@@ -45,24 +48,27 @@ class PlotField(QWidget):
         left_widgets = [
             #self.setting,
             self.data_tab,
-            util.Hbox([self.x_axis, self.y_axis]),
+            Util.Hbox([self.x_axis, self.y_axis]),
             self.plot_button
         ]
         
         #右側
         #TODO Widgetの追加
+        self.canvas = Canvas()
         right_widgets = [
-            self.setting
+            self.setting,
+            self.canvas.canvas
         ]
 
         #子Widgetをセット
         self.setLayout(
-            util.Hlayout(
+            Util.Hlayout(
                 [
-                    util.Vbox(left_widgets),
-                    util.Vbox(right_widgets)
+                    Util.Vbox(left_widgets),
+                    Util.Vbox(right_widgets)
                 ]
             )
         )
 
-    #TODO connectするメソッド
+    def plot(self):
+        Plot.execute(self.canvas, [])

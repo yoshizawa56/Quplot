@@ -8,12 +8,11 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "02 November 2018"
+__date__    = "03 November 2018"
 
 from PyQt5.QtWidgets import (QGroupBox, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QCheckBox, QComboBox)
-
-from ..logic.util import util
+from ..logic.Util import Util
 
 class AxisSetting(QGroupBox):
     def __init__(self, axis,  parent=None):
@@ -33,6 +32,15 @@ class AxisSetting(QGroupBox):
             axis_label,
             self.axis_edit,
             self.axis_style_combo,
+        ]
+
+        #軸名のフォントサイズ
+        font_label = QLabel("Fontsize : ")
+        self.font_edit = QLineEdit()
+        self.font_edit.setFixedWidth(25)
+        font_widgets = [
+            font_label,
+            self.font_edit
         ]
 
         #indexの設定
@@ -67,12 +75,13 @@ class AxisSetting(QGroupBox):
 
         #selfに各子Widgetを割り当てる
         self.setLayout(
-            util.Vlayout(
+            Util.Vlayout(
                 [
-                    util.Hbox(axis_widgets),
-                    util.Hbox(index_widgets),
-                    util.Hbox(scale_widgets),
-                    util.Hbox(range_widgets)
+                    Util.Hbox(axis_widgets),
+                    Util.Hbox(font_widgets),
+                    Util.Hbox(index_widgets),
+                    Util.Hbox(scale_widgets),
+                    Util.Hbox(range_widgets)
                 ]
             )
         )
@@ -100,6 +109,6 @@ class AxisSetting(QGroupBox):
             ('legend_position', self.legend_combo.setCurrentIndex)
         ]
 
-        util.set_default(default_config_dict, target_list)
+        Util.set_default(default_config_dict, target_list)
 
 
