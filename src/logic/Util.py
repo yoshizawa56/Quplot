@@ -8,17 +8,22 @@ __version__ = "0.1.0"
 __date__    = "02 November 2018"
 
 import json
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
+                            QLineEdit, QCheckBox, QComboBox)
+import os
 
 class Util:
     #入力領域にデフォルトの値をセット
     @staticmethod
     def set_default(default_config_dict, target_list):
         for key, target in target_list:
-            try:
-                target(default_config_dict[key])
-            except KeyError:
-                print('error')
+            value = default_config_dict[key]
+            if type(target) == QLineEdit:
+                target.setPlaceholderText(value)
+            elif type(target) == QCheckBox:
+                target.setCheckState(value)
+            elif type(target) == QComboBox:
+                target.setCurrentIndex(target.findData(value))
 
     #設定ファイルで入力がない部分をデフォルト値で補完
     @staticmethod
@@ -31,17 +36,19 @@ class Util:
     #デフォルト設定ファイルが破損していないか、マスターファイルと比較
     @staticmethod
     def load_default_config():
-        default_file = 'default.json'
+        base = os.path.dirname(os.path.abspath(__file__))
+        default_file = os.path.normpath(os.path.join(base, '../../settings/default.json'))
         with open(default_file) as f:
             default_config_dict = json.load(f)
 
-        master_file = 'master.json'
-        with open(master_file) as f:
-            master_config_dict = json.load(f)
+        #TODO マスターファイルの実装
+        # master_file = 'master.json'
+        # with open(master_file) as f:
+        #     master_config_dict = json.load(f)
         
-        for key, val in master_config_dict:
-            if default_config_dict.get(key, None) == None:
-                default_config_dict[key] = val
+        # for key, val in master_config_dict:
+        #     if default_config_dict.get(key, None) == None:
+        #         default_config_dict[key] = val
 
         return default_config_dict
 
@@ -49,6 +56,7 @@ class Util:
     @staticmethod
     def Hlayout(widget_list):
         layout = QHBoxLayout()
+        #layout.setContentsMargin(0,0,0,0)
         for widget in widget_list:
             layout.addWidget(widget)
         layout.addStretch()
@@ -58,7 +66,7 @@ class Util:
     @staticmethod
     def Vlayout(widget_list):
         layout = QVBoxLayout()
-        layout.setSpacing(0.2)
+        layout.setSpacing(1)
         for widget in widget_list:
             layout.addWidget(widget)
         return layout
@@ -67,6 +75,7 @@ class Util:
     @staticmethod
     def Hbox(widget_list):
         Hbox_widget = QWidget()
+        #Hbox_widget.setContentsMargins(0,0,0,0)
         Hbox_widget.setLayout(Util.Hlayout(widget_list))
         return Hbox_widget
 
@@ -76,6 +85,11 @@ class Util:
         Vbox_widget = QWidget()
         Vbox_widget.setLayout(Util.Vlayout(widget_list))
         return Vbox_widget
+
+    #comboBoxで現在指定されているDataを表示
+    @staticmethod
+    def combo_data(combo):
+        return combo.itemData(combo.setCurrentIndex())
 
 
 

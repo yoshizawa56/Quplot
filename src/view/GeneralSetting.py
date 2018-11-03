@@ -50,11 +50,7 @@ class GeneralSetting(QWidget):
         self.legend_checkbox = QCheckBox()
         legend_position_label = QLabel('Position : ')
         self.legend_combo = QComboBox()
-        self.legend_combo.addItem('Best')
-        self.legend_combo.addItem('Upper Right')
-        self.legend_combo.addItem('Upper Left')
-        self.legend_combo.addItem('Lower Right')
-        self.legend_combo.addItem('Lower Left')
+        self.set_legend_combo()
         legend_widgets = [
             legend_label,
             self.legend_checkbox,
@@ -85,12 +81,25 @@ class GeneralSetting(QWidget):
 
     #TODO import_buttonにコネクトするメソッド
 
+    def set_legend_combo(self):
+        self.legend_combo.addItem('Best')
+        self.legend_combo.setItemData(0, 'best')
+        self.legend_combo.addItem('Upper Right')
+        self.legend_combo.setItemData(1, 'upper right')
+        self.legend_combo.addItem('Upper Left')
+        self.legend_combo.setItemData(2, 'upper left')
+        self.legend_combo.addItem('Lower Right')
+        self.legend_combo.setItemData(3, 'lower right')
+        self.legend_combo.addItem('Lower Left')
+        self.legend_combo.setItemData(4, 'lower left')
+
+
     def config_dict(self):
         config = {
             'title' : self.title_edit.text(),
             'title_font' : self.title_font_edit.text(),
             'legend_status' : self.legend_checkbox.isChecked(),
-            'legend_position' : self.legend_combo.currentIndex(),
+            'legend_position' : Util.combo_data(self.legend_combo),
             'tick_font' : self.tick_edit.text()
         }
 
@@ -98,10 +107,10 @@ class GeneralSetting(QWidget):
 
     def set_default_config(self, default_config_dict):
         target_list = [
-            ('title_font', self.title_font_edit.setPlaceholderText),
-            ('legend_status', self.legend_checkbox.setCheckState),
-            ('legend_position', self.legend_combo.setCurrentIndex),
-            ('tick_font', self.tick_edit.setPlaceholderText
+            ('title_font', self.title_font_edit),
+            ('legend_status', self.legend_checkbox),
+            ('legend_position', self.legend_combo),
+            ('tick_font', self.tick_edit)
         ]
 
         Util.set_default(default_config_dict, target_list)
