@@ -12,7 +12,7 @@ __date__    = "02 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog)
-from ..logic.util import util
+from ..logic.Util import Util
 import os
 
 class FileField(QWidget):
@@ -32,7 +32,7 @@ class FileField(QWidget):
         #ファイル名入力
         file_label = QLabel('File name : ')
         self.file_edit = QLineEdit()
-        self.file_edit.setMinimumWidth(350)
+        self.file_edit.setMinimumWidth(300)
         self.file_reference = QPushButton('Reference')
         file_widgets = [
             file_label,
@@ -43,14 +43,14 @@ class FileField(QWidget):
         #凡例設定
         legend_label = QLabel('Legend : ')
         self.legend_edit = QLineEdit()
-        self.legend_edit.setMinimumWidth(300)
+        self.legend_edit.setMinimumWidth(250)
         self.legend_combo = QComboBox()
-        self.legend_combo.addItem('LaTeX')
-        self.legend_combo.addItem('Text')
+        self.legend_combo.addItem('LaTeX', 'LaTeX')
+        self.legend_combo.addItem('Text', 'Text')
         self.legend_combo.setMinimumWidth(80)
-        legend_font_label = QLabel('Fontsize : ')
+        legend_font_label = QLabel('Font size : ')
         self.legend_font_edit = QLineEdit()
-        self.legend_font_edit.setMaximumWidth(25)
+        self.legend_font_edit.setFixedWidth(25)
         legend_widgets = [
             legend_label,
             self.legend_edit,
@@ -99,41 +99,51 @@ class FileField(QWidget):
 
         #selfに各子Widgetを割り当てる
         self.setLayout(
-            util.Vlayout(
+            Util.Vlayout(
                 [
-                    util.Hbox(file_widgets),
-                    util.Hbox(legend_widgets),
-                    util.Hbox(linestyle_widgets),
-                    util.Hbox(marker_widgets)
+                    Util.Hbox(file_widgets),
+                    Util.Hbox(legend_widgets),
+                    Util.Hbox(linestyle_widgets),
+                    Util.Hbox(marker_widgets)
                 ]
             )
         )
 
+        #widgetと設定名の対応関係
+        self.contents = [
+            ('file', self.file_edit),
+            ('legend', self.legend_edit),
+            ('legend_style', self.legend_combo),
+            ('legend_font', self.legend_font_edit),
+            ('linestyle', self.line_style_combo),
+            ('line_color', self.line_color_combo),
+            ('line_width', self.line_width_edit),
+            ('marker', self.marker_style_combo),
+            ('marker_color', self.marker_color_combo),
+            ('marker_size', self.marker_size_edit)
+        ]
+
     def set_line_style_combo(self):
-        self.line_style_combo.addItem('None')
-        self.line_style_combo.addItem('-')
-        self.line_style_combo.addItem('--')
-        self.line_style_combo.addItem('-.')
-        self.line_style_combo.setCurrentIndex(1)
+        self.line_style_combo.addItem('None', 'None')
+        self.line_style_combo.addItem('-', '-')
+        self.line_style_combo.addItem('--', '--')
+        self.line_style_combo.addItem('-.', '-.')
         self.line_style_combo.setMinimumWidth(80)
         #TODO linestyleを追加
-        #TODO userDataの追加
 
     def set_marker_style_combo(self):
-        self.marker_style_combo.addItem('None')
-        self.marker_style_combo.addItem('o')
-        self.marker_style_combo.addItem('x')
-        self.marker_style_combo.addItem('^')
+        self.marker_style_combo.addItem('None', 'None')
+        self.marker_style_combo.addItem('o', 'o')
+        self.marker_style_combo.addItem('x', 'x')
+        self.marker_style_combo.addItem('^', '^')
         self.marker_style_combo.setMinimumWidth(80)
         #TODO linestyleを追加
-        #TODO userDataの追加
 
     def set_color_combo(self, combo):
-        combo.addItem('Auto')
-        combo.addItem('Black')
+        combo.addItem('Auto', 'Auto')
+        combo.addItem('Black', 'Black')
         combo.setMinimumWidth(120)
         #TODO colorを追加
-        #TODO userDataの追加
 
     def file_open(self):
         #TODO 始点となるディレクトリをどうするか
@@ -142,30 +152,16 @@ class FileField(QWidget):
         if(filename != ''):
             self.file_edit.setText(filename[0])
             #次回のファイル
-            #TODO タブ間でbase_dirを共有したい
             self.parent.broadcast_base_dir(os.path.dirname(filename[0]))
 
-    #TODO 修正
     def config_dict(self):
-        config = {
-            'title' : self.title_edit.text(),
-            'title_font' : self.title_font_edit.text(),
-            'legend_status' : self.legend_checkbox.isChecked(),
-            'legend_position' : self.legend_combo.currentIndex()
-        }
+        return Util.config_dict(self.contents)
 
-        return config
-
-    #TODO 修正
     def set_default_config(self, default_config_dict):
-        target_list = [
-            ('title', self.title_edit.setPlaceholderText),
-            ('title_font', self.title_font_edit.setPlaceholderText),
-            ('legend_status', self.legend_checkbox.setCheckState),
-            ('legend_position', self.legend_combo.setCurrentIndex)
-        ]
+        Util.set_default(default_config_dict, self.contents)
 
-        util.set_default(default_config_dict, target_list)
+    def set_config(self, config_dict):
+        Util.set_config(config_dict, self.contents)
 
     #TODO connectするメソッド
 
