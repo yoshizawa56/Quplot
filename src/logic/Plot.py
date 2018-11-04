@@ -17,9 +17,33 @@ class Plot:
         axes = canvas.axes
 
         #TODO プロットの処理(以下は仮置き)
-        x = np.arange(0, 1, 0.1)
-        y = np.sin(x)
-        axes.plot(x,y, '-')
+        #データの読み込み
+        for i in range(20):
+            if config_dict.get('data' + str(i), False):
+                conf = config_dict['data' + str(i)]
+                #データソースがファイルの場合
+                if conf['data_type'] == 'File':
+                    try:
+                        data = np.loadtxt(conf['file'])
+                    except IOError as e:
+                        QMessageBox.warning(w, "Message", u"File can't open !")
+                        return
+
+                    x = []
+                    y = []
+                    for line in data:
+                        x.append(line[int(config_dict['X_axis']['index'])])
+                        y.append(line[int(config_dict['Y_axis']['index'])])
+
+                    axes.plot(x,y)
+
+                #データソースがFunctionの場合
+                else:
+                    print('test')
+
+        # x = np.arange(0, 1, 0.1)
+        # y = np.sin(x)
+        # axes.plot(x,y, '-')
 
         #結果の出力
         canvas.canvas.draw()

@@ -112,5 +112,5 @@ class PlotField(QWidget):
         base = os.path.dirname(os.path.abspath(__file__))
         filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
         Util.save_export_file(filename, self.config_dict())
-        print(self.config_dict())
-        #Plot.execute(self.canvas, self.config_dict())
+        #print(self.config_dict())
+        Plot.execute(self.canvas, self.config_dict())
