@@ -1,0 +1,56 @@
+{
+    "data0": {
+        "data_type": "File",
+        "file": "hogehoge.dat",
+        "legend": "file1",
+        "legend_style": "Text",
+        "legend_font": "12",
+        "linestyle": "-",
+        "line_color": "Auto",
+        "line_width": "1",
+        "marker": "o",
+        "marker_color": "Black",
+        "marker_size": "1"
+    },
+    "data1": {
+        "data_type": "Function",
+        "function": "np.sin(x)",
+        "legend_style": "Text",
+        "legend_font": "12",
+        "linestyle": "-",
+        "line_color": "Auto",
+        "line_width": "1"
+    },
+    "data2": {
+        "data_type": "File",
+        "legend_style": "Text",
+        "legend_font": "12",
+        "linestyle": "-",
+        "line_color": "Auto",
+        "line_width": "1",
+        "marker": "o",
+        "marker_color": "Black",
+        "marker_size": "1"
+    },
+    "X_axis": {
+        "title": "x",
+        "style": "LaTeX",
+        "index": "0",
+        "font": "12",
+        "scale": "Linear",
+        "range": "1:2"
+    },
+    "Y_axis": {
+        "title": "y",
+        "style": "LaTeX",
+        "index": "1",
+        "font": "12",
+        "scale": "Log"
+    },
+    "title": "test plot",
+    "title_font": "12",
+    "legend_status": 2,
+    "legend_position": "upper left",
+    "tick_font": "12",
+    "save_file": "./fig.pdf"
+}

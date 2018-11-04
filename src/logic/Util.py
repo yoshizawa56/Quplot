@@ -5,7 +5,7 @@ Utilクラス
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "02 November 2018"
+__date__    = "04 November 2018"
 
 import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
@@ -15,15 +15,55 @@ import os
 class Util:
     #入力領域にデフォルトの値をセット
     @staticmethod
-    def set_default(default_config_dict, target_list):
-        for key, target in target_list:
-            value = default_config_dict[key]
-            if type(target) == QLineEdit:
-                target.setPlaceholderText(value)
-            elif type(target) == QCheckBox:
-                target.setCheckState(value)
-            elif type(target) == QComboBox:
-                target.setCurrentIndex(target.findData(value))
+    def set_default(default_config_dict, contents):
+        for key, widget in contents:
+            #デフォルト設定に含まれているパラメータのみ設定
+            if default_config_dict.get(key, False):
+                value = default_config_dict[key]
+                if type(widget) == QLineEdit:
+                    widget.setPlaceholderText(value)
+                elif type(widget) == QCheckBox:
+                    if value == 'enable':
+                        widget.setCheckState(2)
+                    elif value == 'disable':
+                        widget.setCheckState(0)
+                elif type(widget) == QComboBox:
+                    widget.setCurrentIndex(widget.findData(value))
+
+    #入力領域に設定値をセット
+    @staticmethod
+    def set_config(config_dict, contents):
+        for key, widget in contents:
+            #設定に含まれているパラメータのみ設定
+            if config_dict.get(key, False):
+                value = config_dict[key]
+                if type(widget) == QLineEdit:
+                    widget.setText(value)
+                elif type(widget) == QCheckBox:
+                    if value == 'enable':
+                        widget.setCheckState(2)
+                    elif value == 'disable':
+                        widget.setCheckState(0)
+                elif type(widget) == QComboBox:
+                    widget.setCurrentIndex(widget.findData(value))
+
+    #contentsのリストから設定Dictを出力
+    @staticmethod
+    def config_dict(contents):
+        dict = {}
+        for key, widget in contents:
+            if type(widget) == QLineEdit:
+                #入力が空の場合はデフォルト値を使うため、辞書に追加しない
+                if str(widget.text()) == '':
+                    continue
+                tmp = widget.text()
+            elif type(widget) == QCheckBox:
+                tmp = widget.checkState()
+            elif type(widget) == QComboBox:
+                tmp = widget.itemData(widget.currentIndex())
+            dict[key] = tmp
+
+        return dict
 
     #設定ファイルで入力がない部分をデフォルト値で補完
     @staticmethod
@@ -52,10 +92,17 @@ class Util:
 
         return default_config_dict
 
+    #
+    @staticmethod
+    def load_config(filename):
+        with open(filename) as f:
+            return json.load(f)
+
     @staticmethod
     def save_export_file(filename, config_dict):
+        #文字列をExportファイルで出力
         with open(filename, 'w') as f:
-            f.write(json.dumps(config_dict))
+            f.write(json.dumps(config_dict, indent=4))
 
     #Widgetのリストを受け取り、QHBoxLayoutにセットして返す
     @staticmethod

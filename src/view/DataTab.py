@@ -43,7 +43,23 @@ class DataTab(QTabWidget):
 
     def set_default_config(self, default_config_dict):
         for i in range(self.count+1):
-            self.widget(i).set_default_config(default_config_dict)
+            self.widget(i).set_default_config(default_config_dict['data0'])
+
+    def set_config(self, config_dict):
+        #tabの初期化
+        for i in range(self.count+1):
+            self.removeTab(0)
+        self.count = 0
+
+        #設定の分だけタブを追加
+        for i in range(20):
+            if config_dict.get('data' + str(i), False):
+                widget = DataField(self)
+                widget.set_config(config_dict['data' + str(i)])
+                self.insertTab(self.count, widget, 'Data' + str(self.count + 1))
+                self.count += 1
+            else:
+                break
 
     def add_tab(self):
         self.count += 1
@@ -51,7 +67,7 @@ class DataTab(QTabWidget):
         self.widget(self.count).set_default_config(Util.load_default_config())
 
     def delete_tab(self, index):
-        if self.count > 1:
+        if self.count > 0:
             self.removeTab(index)
             self.count -= 1
 

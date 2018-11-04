@@ -11,7 +11,7 @@ __version__ = "0.1.0"
 __date__    = "02 November 2018"
 
 from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog
-
+import os
 from .GeneralSetting import GeneralSetting
 from .DataTab import DataTab
 from .AxisSetting import AxisSetting
@@ -29,8 +29,8 @@ class PlotField(QWidget):
         #TODO connect系の処理
         self.plot_button.clicked.connect(self.plot)
         self.setting.export_button.clicked.connect(self.export_plot)
-        #self.setting.import_last_button.clicked.connect(self.import_last_plot)
-        #self.setting.import_button.clicked.connect(self.import_plot)
+        self.setting.import_last_button.clicked.connect(self.import_last_plot)
+        self.setting.import_button.clicked.connect(self.import_plot)
 
         #テスト用
         d = Util.load_default_config()
@@ -53,7 +53,7 @@ class PlotField(QWidget):
         #TODO Widgetの追加
         self.setting = GeneralSetting()
         self.canvas = Canvas()
-        self.save_figure = SaveFigure()
+        self.save_figure = SaveFigure(self)
         right_widgets = [
             self.setting,
             self.canvas.canvas,
@@ -75,12 +75,22 @@ class PlotField(QWidget):
             self.data_tab,
             self.x_axis,
             self.y_axis,
-            self.setting
+            self.setting,
+            self.save_figure
         ]
 
     def export_plot(self):
         filename = QFileDialog.getSaveFileName(self, "Open file")
         Util.save_export_file(filename[0], self.config_dict())
+
+    def import_plot(self):
+        filename = QFileDialog.getOpenFileName(self, "Open file")
+        self.set_config(Util.load_config(filename[0]))
+
+    def import_last_plot(self):
+        base = os.path.dirname(os.path.abspath(__file__))
+        filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
+        self.set_config(Util.load_config(filename))
 
     def config_dict(self):
         config = {}
@@ -93,6 +103,12 @@ class PlotField(QWidget):
         for widget in self.widget_list:
             widget.set_default_config(default_config_dict)
 
+    def set_config(self, config_dict):
+        for widget in self.widget_list:
+            widget.set_config(config_dict)
+
     def plot(self):
-        print(self.config_dict())
-        Plot.execute(self.canvas, self.config_dict())
+        base = os.path.dirname(os.path.abspath(__file__))
+        filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
+        Util.save_export_file(filename, self.config_dict())
+        #Plot.execute(self.canvas, self.config_dict())

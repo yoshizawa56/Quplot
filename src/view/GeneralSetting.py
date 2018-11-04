@@ -19,13 +19,15 @@ class GeneralSetting(QWidget):
         super().__init__()
         self.setup_ui()
 
-        #TODO import_buttonをconnect
-
     def setup_ui(self):
         #importボタン(右端に表示)
+        self.export_button = QPushButton('Export')
         self.import_button = QPushButton('Import')
+        self.import_last_button = QPushButton('Import last plot')
         import_layout = QHBoxLayout()
+        import_layout.addWidget(self.export_button)
         import_layout.addStretch(0)
+        import_layout.addWidget(self.import_last_button)
         import_layout.addWidget(self.import_button)
         import_widget = QWidget()
         import_widget.setLayout(import_layout)
@@ -59,7 +61,7 @@ class GeneralSetting(QWidget):
         ]
 
         #Tick labelの設定
-        tick_label = QLabel('Tick label fontsize : ')
+        tick_label = QLabel('Tick label font size : ')
         self.tick_edit = QLineEdit()
         self.tick_edit.setFixedWidth(25)
         tick_widgets = [
@@ -79,40 +81,44 @@ class GeneralSetting(QWidget):
             )
         )
 
-    #TODO import_buttonにコネクトするメソッド
-
-    def set_legend_combo(self):
-        self.legend_combo.addItem('Best')
-        self.legend_combo.setItemData(0, 'best')
-        self.legend_combo.addItem('Upper Right')
-        self.legend_combo.setItemData(1, 'upper right')
-        self.legend_combo.addItem('Upper Left')
-        self.legend_combo.setItemData(2, 'upper left')
-        self.legend_combo.addItem('Lower Right')
-        self.legend_combo.setItemData(3, 'lower right')
-        self.legend_combo.addItem('Lower Left')
-        self.legend_combo.setItemData(4, 'lower left')
-
-
-    def config_dict(self):
-        config = {
-            'title' : self.title_edit.text(),
-            'title_font' : self.title_font_edit.text(),
-            'legend_status' : self.legend_checkbox.isChecked(),
-            'legend_position' : Util.combo_data(self.legend_combo),
-            'tick_font' : self.tick_edit.text()
-        }
-
-        return config
-
-    def set_default_config(self, default_config_dict):
-        target_list = [
+        #widgetと設定名の対応関係
+        self.contents = [
+            ('title', self.title_edit),
             ('title_font', self.title_font_edit),
             ('legend_status', self.legend_checkbox),
             ('legend_position', self.legend_combo),
             ('tick_font', self.tick_edit)
         ]
 
-        Util.set_default(default_config_dict, target_list)
+    def set_legend_combo(self):
+        self.legend_combo.addItem('Best', 'best')
+        self.legend_combo.addItem('Upper Right', 'upper right')
+        self.legend_combo.addItem('Upper Left', 'upper left')
+        self.legend_combo.addItem('Lower Right', 'lower right')
+        self.legend_combo.addItem('Lower Left', 'lower left')
 
+    def config_dict(self):
+        # config = {
+        #     'title' : self.title_edit.text(),
+        #     'title_font' : self.title_font_edit.text(),
+        #     'legend_status' : self.legend_checkbox.isChecked(),
+        #     'legend_position' : Util.combo_data(self.legend_combo),
+        #     'tick_font' : self.tick_edit.text()
+        # }
+
+        return Util.config_dict(self.contents)
+
+    def set_default_config(self, default_config_dict):
+        Util.set_default(default_config_dict, self.contents)
+        # target_list = [
+        #     ('title_font', self.title_font_edit),
+        #     ('legend_status', self.legend_checkbox),
+        #     ('legend_position', self.legend_combo),
+        #     ('tick_font', self.tick_edit)
+        # ]
+
+        # Util.set_default(default_config_dict, target_list)
+
+    def set_config(self, config_dict):
+        Util.set_config(config_dict, self.contents)
 

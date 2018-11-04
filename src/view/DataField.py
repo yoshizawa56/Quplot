@@ -50,39 +50,41 @@ class DataField(QWidget):
         )
         self.setLayout(self.layout)
 
+        #widgetと設定名の対応関係
+        self.contents = [
+            ('data_type', self.data_type)
+        ]
+
     #データソースの種類変更
     def data_type_changed(self):
         #既存Widgetを削除
         self.layout.removeWidget(self.data)
         self.data.deleteLater()
         self.data = None
-        
+
         #新Widgetを追加
         if self.data_type.currentIndex() == 0:
             self.data = FileField(self.parent)
         else:
             self.data = FunctionField(self.parent)
-
         self.layout.addWidget(self.data)
+
+        #追加されたTabにデフォルト設定を適用
         self.data.set_default_config(Util.load_default_config())
 
-
-
     def config_dict(self):
-        config = {
-            'data_type' : Util.combo_data(self.data_type)
-        }
+        config = Util.config_dict(self.contents)
+        #子Widgetの設定を追加
         config.update(self.data.config_dict())
 
         return config
 
     def set_default_config(self, default_config_dict):
-        target_list = [
-            ('data_type', self.data_type)
-        ]
-        Util.set_default(default_config_dict, target_list)
-
-        #子要素にデフォルト設定を適用
+        Util.set_default(default_config_dict, self.contents)
+        #子Widgetにデフォルト設定を適用
         self.data.set_default_config(default_config_dict)
 
-
+    def set_config(self, config_dict):
+        Util.set_config(config_dict, self.contents)
+        #子Widgetに設定を適用
+        self.data.set_config(config_dict)

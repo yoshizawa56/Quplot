@@ -17,16 +17,17 @@ from ..logic.Util import Util
 class AxisSetting(QGroupBox):
     def __init__(self, axis,  parent=None):
         super().__init__(axis + '-Axis')
+        self.axis = axis
         self.setup_ui(axis)
 
     def setup_ui(self, axis):
         #軸名
-        axis_label = QLabel("Title : ")
+        axis_label = QLabel('Title : ')
         self.axis_edit = QLineEdit()
         self.axis_edit.setMaximumWidth(170)
         self.axis_style_combo = QComboBox()
-        self.axis_style_combo.addItem("LaTeX")
-        self.axis_style_combo.addItem("Text")
+        self.axis_style_combo.addItem('LaTeX', 'LaTeX')
+        self.axis_style_combo.addItem('Text', 'Text')
         self.axis_style_combo.setMinimumWidth(80)
         axis_widgets = [
             axis_label,
@@ -35,7 +36,7 @@ class AxisSetting(QGroupBox):
         ]
 
         #軸名のフォントサイズ
-        font_label = QLabel("Fontsize : ")
+        font_label = QLabel("Font size : ")
         self.font_edit = QLineEdit()
         self.font_edit.setFixedWidth(25)
         font_widgets = [
@@ -47,7 +48,7 @@ class AxisSetting(QGroupBox):
         index_label = QLabel('Data : ')
         self.index_combo = QComboBox()
         for i in range(1,10):
-            self.index_combo.addItem(str(i))
+            self.index_combo.addItem(str(i), str(i-1))
         index_widgets = [
             index_label,
             self.index_combo
@@ -56,8 +57,8 @@ class AxisSetting(QGroupBox):
         #スケールの設定
         scale_label = QLabel('Scale : ')
         self.scale_combo = QComboBox(self)
-        self.scale_combo.addItem("Linear")
-        self.scale_combo.addItem("Log")
+        self.scale_combo.addItem('Linear', 'Linear')
+        self.scale_combo.addItem('Log', 'Log')
         self.scale_combo.setMinimumWidth(100)
         scale_widgets = [
             scale_label,
@@ -65,8 +66,9 @@ class AxisSetting(QGroupBox):
         ]
 
         #rangeの設定
-        range_label = range_label = QLabel("Range : ")
+        range_label = range_label = QLabel('Range : ')
         self.range_edit = QLineEdit()
+        self.range_edit.setPlaceholderText('~:~')
         self.range_edit.setMaximumWidth(80)
         range_widgets = [
             range_label,
@@ -86,29 +88,24 @@ class AxisSetting(QGroupBox):
             )
         )
 
-        # layout = QVBoxLayout()
-        # layout.addWidget(title_widget)
-        # layout.addWidget(legend_widget)
-        # self.setLayout(layout)
-
-    def config_dict(self):
-        config = {
-            'title' : self.title_edit.text(),
-            'title_font' : self.title_font_edit.text(),
-            'legend_status' : self.legend_checkbox.isChecked(),
-            'legend_position' : self.legend_combo.currentIndex()
-        }
-
-        return config
-
-    def set_default_config(self, default_config_dict):
-        target_list = [
-            ('title', self.title_edit.setPlaceholderText),
-            ('title_font', self.title_font_edit.setPlaceholderText),
-            ('legend_status', self.legend_checkbox.setCheckState),
-            ('legend_position', self.legend_combo.setCurrentIndex)
+        #widgetと設定名の対応関係
+        self.contents = [
+            ('title', self.axis_edit),
+            ('style', self.axis_style_combo),
+            ('index', self.index_combo),
+            ('font', self.font_edit),
+            ('scale', self.scale_combo),
+            ('range', self.range_edit),
         ]
 
-        Util.set_default(default_config_dict, target_list)
+    def config_dict(self):
+        return {self.axis + '_axis' : Util.config_dict(self.contents)}
 
+    def set_default_config(self, default_config_dict):
+        default = default_config_dict[self.axis + '_axis']
+        Util.set_default(default, self.contents)
+
+    def set_config(self, config_dict):
+        config = config_dict[self.axis + '_axis']
+        Util.set_config(config, self.contents)
 
