@@ -38,7 +38,7 @@ class PlotField(QWidget):
 
     def setup_ui(self):
         #左側
-        self.data_tab = DataTab()
+        self.data_tab = DataTab(self)
         self.x_axis = AxisSetting('X')
         self.y_axis = AxisSetting('Y')
         self.plot_button = QPushButton('Plot!!')
@@ -85,7 +85,8 @@ class PlotField(QWidget):
 
     def import_plot(self):
         filename = QFileDialog.getOpenFileName(self, "Open file")
-        self.set_config(Util.load_config(filename[0]))
+        if filename[0] != '':
+            self.set_config(Util.load_config(filename[0]))
 
     def import_last_plot(self):
         base = os.path.dirname(os.path.abspath(__file__))
@@ -111,4 +112,5 @@ class PlotField(QWidget):
         base = os.path.dirname(os.path.abspath(__file__))
         filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
         Util.save_export_file(filename, self.config_dict())
+        print(self.config_dict())
         #Plot.execute(self.canvas, self.config_dict())

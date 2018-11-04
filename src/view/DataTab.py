@@ -18,6 +18,7 @@ from ..logic.Util import Util
 class DataTab(QTabWidget):
     def __init__(self, parent=None):
         super().__init__()
+        self.parent = parent
         self.setTabsClosable(True)
         self.setMovable(True)
         self.tabCloseRequested.connect(self.delete_tab)
@@ -29,7 +30,7 @@ class DataTab(QTabWidget):
         self.setCornerWidget(addButton)
 
         self.insertTab(0, DataField(self), 'Data1')
-        self.count = 0
+        self.count = 1
         self.setFixedSize(600, 340)
 
     def config_dict(self):
@@ -42,7 +43,7 @@ class DataTab(QTabWidget):
         return config
 
     def set_default_config(self, default_config_dict):
-        for i in range(self.count+1):
+        for i in range(self.count):
             self.widget(i).set_default_config(default_config_dict['data0'])
 
     def set_config(self, config_dict):
@@ -55,6 +56,7 @@ class DataTab(QTabWidget):
         for i in range(20):
             if config_dict.get('data' + str(i), False):
                 widget = DataField(self)
+                widget.set_default_config(Util.load_default_config()['data0'])
                 widget.set_config(config_dict['data' + str(i)])
                 self.insertTab(self.count, widget, 'Data' + str(self.count + 1))
                 self.count += 1
@@ -62,9 +64,9 @@ class DataTab(QTabWidget):
                 break
 
     def add_tab(self):
-        self.count += 1
         self.insertTab(self.count, DataField(self), 'Data' + str(self.count+1))
-        self.widget(self.count).set_default_config(Util.load_default_config())
+        self.widget(self.count).set_default_config(Util.load_default_config()['data0'])
+        self.count += 1
 
     def delete_tab(self, index):
         if self.count > 0:

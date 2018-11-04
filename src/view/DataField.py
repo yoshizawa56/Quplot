@@ -8,7 +8,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "02 November 2018"
+__date__    = "04 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout,
         QLabel, QHBoxLayout, QComboBox)
@@ -70,7 +70,7 @@ class DataField(QWidget):
         self.layout.addWidget(self.data)
 
         #追加されたTabにデフォルト設定を適用
-        self.data.set_default_config(Util.load_default_config())
+        self.data.set_default_config(Util.load_default_config()['data0'])
 
     def config_dict(self):
         config = Util.config_dict(self.contents)

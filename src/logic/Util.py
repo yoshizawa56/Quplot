@@ -101,8 +101,9 @@ class Util:
     @staticmethod
     def save_export_file(filename, config_dict):
         #文字列をExportファイルで出力
-        with open(filename, 'w') as f:
-            f.write(json.dumps(config_dict, indent=4))
+        if filename != '':
+            with open(filename, 'w') as f:
+                f.write(json.dumps(config_dict, indent=4))
 
     #Widgetのリストを受け取り、QHBoxLayoutにセットして返す
     @staticmethod

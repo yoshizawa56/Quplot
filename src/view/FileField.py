@@ -149,10 +149,13 @@ class FileField(QWidget):
         #TODO 始点となるディレクトリをどうするか
         self.base_dir = '~/'
         filename = QFileDialog.getOpenFileName(self, "Open file", self.base_dir)
-        if(filename != ''):
+        if filename[0] != '':
             self.file_edit.setText(filename[0])
             #次回のファイル
             self.parent.broadcast_base_dir(os.path.dirname(filename[0]))
+
+            #indexのデータの読み込み
+            self.set_axis_label(self.file_edit.text())
 
     def config_dict(self):
         return Util.config_dict(self.contents)
@@ -160,9 +163,24 @@ class FileField(QWidget):
     def set_default_config(self, default_config_dict):
         Util.set_default(default_config_dict, self.contents)
 
+    def set_axis_label(self, filename):
+        #TODO 実装が気持ち悪いから修正したい
+        try:
+            with open(filename, 'r') as f:
+                items = f.readline()
+                titles = f.readline()
+            if items[0:2] == '##':
+                items = items.replace('#', '').split()
+                if titles[0:2] == '##':
+                    titles = titles.replace('#', '').split()
+                else:
+                    titles = False
+                self.parent.parent.x_axis.set_index_item(items, titles)
+                self.parent.parent.y_axis.set_index_item(items, titles)
+        except IOError:
+                print('error')
+
     def set_config(self, config_dict):
         Util.set_config(config_dict, self.contents)
-
-    #TODO connectするメソッド
-
-
+        if self.file_edit.text() != '':
+            self.set_axis_label(self.file_edit.text())

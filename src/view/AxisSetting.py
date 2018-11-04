@@ -18,7 +18,10 @@ class AxisSetting(QGroupBox):
     def __init__(self, axis,  parent=None):
         super().__init__(axis + '-Axis')
         self.axis = axis
+        self.titles = []
         self.setup_ui(axis)
+
+        self.index_combo.currentIndexChanged.connect(self.set_label)
 
     def setup_ui(self, axis):
         #軸名
@@ -47,6 +50,7 @@ class AxisSetting(QGroupBox):
         #indexの設定
         index_label = QLabel('Data : ')
         self.index_combo = QComboBox()
+        self.index_combo.setFixedWidth(150)
         for i in range(1,10):
             self.index_combo.addItem(str(i), str(i-1))
         index_widgets = [
@@ -109,3 +113,19 @@ class AxisSetting(QGroupBox):
         config = config_dict[self.axis + '_axis']
         Util.set_config(config, self.contents)
 
+    def set_index_item(self, items, titles):
+        #TODO 実装
+        for i in range(len(items)):
+            self.index_combo.setItemText(i, items[i])
+        if len(items) < 10:
+            for i in range(len(items), 10):
+                self.index_combo.removeItem(len(items))
+
+        #軸に対応するラベルがあれば設定
+        if titles:
+            self.titles = titles
+            self.set_label()
+
+    def set_label(self):
+        if len(self.titles) > self.index_combo.currentIndex():
+            self.axis_edit.setText(self.titles[self.index_combo.currentIndex()])
