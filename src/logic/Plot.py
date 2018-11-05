@@ -8,6 +8,7 @@ __version__ = "0.1.0"
 __date__    = "05 November 2018"
 
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 class Plot:
@@ -18,8 +19,8 @@ class Plot:
         axes = canvas.axes
         c = config_dict
 
-        #figを初期化
-        canvas.fig.clear()
+        #axesを初期化
+        canvas.axes.clear()
 
         #データを読み込んでプロット
         for i in range(20):
@@ -33,8 +34,9 @@ class Plot:
 
                     try:
                         data = np.loadtxt(conf['file'])
-                    except IOError as e:
-                        QMessageBox.warning(w, "Message", u"File can't open !")
+                    except IOError:
+                        print('error')
+                        #QMessageBox.warning(w, "Message", u"File can't open !")
                         return
 
                     x = []
@@ -54,12 +56,15 @@ class Plot:
                         min, max = conf['range'].split(':')
                         min, max = float(min), float(max)
                     else:
-                        
+                        print('test')
 
+                    min, max = 0, 300
                     x = np.arange(min, max, (max-min)/500)
-
+                    print(conf['function'])
                     #function領域に書かれているコードを実行してyのデータを構築
-                    exec('y=' + conf['function'])
+                    #exec('y = ' + conf['function'])
+                    y = np.sin(x)
+                    print(len(x), len(y))
 
                 #plotのオプションを構築
                 options = {}
@@ -72,14 +77,14 @@ class Plot:
                     options.update(label=label)
 
                 #lineの設定
-                options.update(linestyle=conf['line_style'])
+                options.update(linestyle=conf['linestyle'])
                 if conf['line_color'] != 'Auto':
-                    options.update(linecolor=conf['line_color'])
+                    options.update(color=conf['line_color'])
                 options.update(linewidth=conf['line_width'])
 
                 #markerの設定(Functionの場合にはないため省略)
                 if conf.get('marker', False):
-                    options.update(markerstyle=conf['marker'])
+                    options.update(marker=conf['marker'])
                     if conf['marker_color'] != 'Auto':
                         options.update(markerfacecolor=conf['marker_color'])
                         options.update(markeredgecolor=conf['marker_color'])
@@ -105,7 +110,10 @@ class Plot:
                 font = 'serif'
             else:
                 font = 'Times New Roman'
-            axes.set_xlabel(label, fontsize=conf['font'], font=font)
+            if axis == 'X':
+                axes.set_xlabel(label, fontsize=conf['font'], fontname=font)
+            else:
+                axes.set_ylabel(label, fontsize=conf['font'], fontname=font)
 
             #rangeとscaleの設定
             if conf.get(range, False):
@@ -120,14 +128,16 @@ class Plot:
 
         #titleの設定
         if c.get('title', False):
-            axes.title(c['title'], fontsize=c['title_font'])
+            axes.set_title(c['title'], fontsize=c['title_font'])
 
         #legendの設定
         if config_dict['legend_status'] == 'enable':
-            axes.legend(loc=c['legend_position'], fontsize=c['legend_font'])
+            #axes.legend(loc=c['legend_position'], fontsize=c['legend_font'])
+            axes.legend(loc=c['legend_position'])
 
         #Tickフォントサイズの設定
         axes.tick_params(labelsize=c['tick_font'])
 
         #結果の出力
+        canvas.fig.tight_layout()
         canvas.canvas.draw()

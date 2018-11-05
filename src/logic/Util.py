@@ -58,7 +58,10 @@ class Util:
                     continue
                 tmp = widget.text()
             elif type(widget) == QCheckBox:
-                tmp = widget.checkState()
+                if widget.checkState() == 2:
+                    tmp = 'enable'
+                elif widget.checkState() == 0:
+                    tmp = 'disable'
             elif type(widget) == QComboBox:
                 tmp = widget.itemData(widget.currentIndex())
             dict[key] = tmp
@@ -67,10 +70,19 @@ class Util:
 
     #設定ファイルで入力がない部分をデフォルト値で補完
     @staticmethod
-    def fill_by_default(default_config_dict, config_dict):
-        for key, default in default_config_dict:
-            if(config_dict.get(key, None) == None):
-                config_dict[key] = default
+    def fill_by_default(config_dict, default_config_dict):
+        config = config_dict
+        for key, default in default_config_dict.items():
+            #辞書が入れ子になっている場合は再帰的にデフォルト設定を適用
+            if type(default) == dict:
+                if config_dict.get(key, False):
+                    config[key] = Util.fill_by_default(config_dict[key],default_config_dict[key])
+            else:
+                if(config_dict.get(key, None) == None):
+                    config[key] = default
+
+        return config
+
 
     #デフォルト設定ファイルを読み込む。
     #デフォルト設定ファイルが破損していないか、マスターファイルと比較

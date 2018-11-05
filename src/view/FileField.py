@@ -8,7 +8,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "02 November 2018"
+__date__    = "05 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog)
@@ -136,12 +136,16 @@ class FileField(QWidget):
         self.marker_style_combo.addItem('o', 'o')
         self.marker_style_combo.addItem('x', 'x')
         self.marker_style_combo.addItem('^', '^')
+        self.marker_style_combo.addItem('s', 's')
+        self.marker_style_combo.addItem('*', '*')
         self.marker_style_combo.setMinimumWidth(80)
         #TODO linestyleを追加
 
     def set_color_combo(self, combo):
         combo.addItem('Auto', 'Auto')
-        combo.addItem('Black', 'Black')
+        combo.addItem('Black', 'black')
+        combo.addItem('Red', 'red')
+        combo.addItem('Blue', 'blue')
         combo.setMinimumWidth(120)
         #TODO colorを追加
 
