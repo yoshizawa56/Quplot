@@ -1,56 +1,46 @@
 {
     "data0": {
         "data_type": "File",
-        "file": "hogehoge.dat",
-        "legend": "file1",
+        "file": "/Users/T.Yoshizawa/pyqtplot/sample/sample_data/sample2.txt",
+        "legend": "test",
         "legend_style": "Text",
-        "legend_font": "12",
         "linestyle": "-",
         "line_color": "Auto",
-        "line_width": "1",
-        "marker": "o",
-        "marker_color": "Black",
-        "marker_size": "1"
+        "line_width": "2",
+        "marker": "None",
+        "marker_color": "red",
+        "marker_size": "3"
     },
     "data1": {
-        "data_type": "Function",
-        "function": "np.sin(x)",
-        "legend_style": "Text",
-        "legend_font": "12",
-        "linestyle": "-",
-        "line_color": "Auto",
-        "line_width": "1"
-    },
-    "data2": {
         "data_type": "File",
+        "file": "/Users/T.Yoshizawa/pyqtplot/sample/sample_data/sample1.txt",
+        "legend": "test2",
         "legend_style": "Text",
-        "legend_font": "12",
-        "linestyle": "-",
+        "linestyle": "-.",
         "line_color": "Auto",
         "line_width": "1",
-        "marker": "o",
-        "marker_color": "Black",
-        "marker_size": "1"
+        "marker": "None",
+        "marker_color": "Auto"
     },
     "X_axis": {
-        "title": "x",
+        "title": "k",
         "style": "LaTeX",
         "index": "0",
-        "font": "12",
+        "font": "10",
         "scale": "Linear",
-        "range": "1:2"
+        "range": "0:100"
     },
     "Y_axis": {
-        "title": "y",
+        "title": "\\hat{f}(k)",
         "style": "LaTeX",
         "index": "1",
-        "font": "12",
+        "font": "10",
         "scale": "Log"
     },
-    "title": "test plot",
-    "title_font": "12",
-    "legend_status": 2,
-    "legend_position": "upper left",
-    "tick_font": "12",
-    "save_file": "./fig.pdf"
+    "title": "kumichan",
+    "title_font": "10",
+    "legend_status": "enable",
+    "legend_position": "best",
+    "tick_font": "10",
+    "save_file": "/Users/T.Yoshizawa/fig/test.png"
 }
