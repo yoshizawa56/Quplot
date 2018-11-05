@@ -8,11 +8,12 @@ Export、画像保存用のWidget
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "03 November 2018"
+__date__    = "05 November 2018"
 
-from PyQt5.QtWidgets import (QGroupBox, QPushButton, QVBoxLayout,
-        QLabel, QLineEdit, QHBoxLayout, QCheckBox, QComboBox, QFileDialog)
+from PyQt5.QtWidgets import (QGroupBox, QPushButton,
+                    QLabel, QLineEdit, QFileDialog)
 from ..logic.Util import Util
+from datetime import datetime as dt
 
 class SaveFigure(QGroupBox):
     def __init__(self, parent=None):
@@ -24,7 +25,6 @@ class SaveFigure(QGroupBox):
         self.save_button.clicked.connect(self.save_figure)
 
     def setup_ui(self):
-        #タイトルの編集
         #ファイル名入力
         file_label = QLabel('File name : ')
         self.file_edit = QLineEdit()
@@ -66,10 +66,9 @@ class SaveFigure(QGroupBox):
 
     def save_figure(self):
         if str(self.file_edit.text()) == '':
-            #TODO デフォルト出力先の設定
-            filename = 'default.pdf'
+            base = Util.load_default_config()['fig_base_dir']
+            time = dt.now().strptime('%Y_%m_%d_%H_%M')
+            filename = base + time + '.pdf'
         else:
             filename = self.file_edit.text()
         self.parent.canvas.fig.savefig(filename)
-
-
