@@ -27,6 +27,10 @@ class Plot:
                 conf = c['data' + str(i)]
                 #データソースがファイルの場合
                 if conf['data_type'] == 'File':
+                    #ファイル名がない場合はスキップ
+                    if not conf.get('file', False):
+                        continue
+
                     try:
                         data = np.loadtxt(conf['file'])
                     except IOError as e:
@@ -41,9 +45,17 @@ class Plot:
 
                 #データソースがFunctionの場合
                 elif conf['data_type'] == 'Function':
+                    #functionがない場合はスキップ
+                    if not conf.get('function', False):
+                        continue
+
                     #xの範囲を定義
-                    min, max = conf['range'].split(':')
-                    min, max = float(min), float(max)
+                    if conf.get('range', False):
+                        min, max = conf['range'].split(':')
+                        min, max = float(min), float(max)
+                    else:
+                        
+
                     x = np.arange(min, max, (max-min)/500)
 
                     #function領域に書かれているコードを実行してyのデータを構築
