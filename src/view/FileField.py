@@ -19,10 +19,6 @@ class FileField(QWidget):
     def __init__(self, parent=None):
         super().__init__()
         self.parent = parent
-
-        #DataTabでbase_dirが定義されていれば、それをbase_dirとして利用
-        if hasattr(self.parent, 'base_dir'):
-            self.base_dir = self.parent.base_dir
         self.setup_ui()
 
         #referenceボタンクリック時
@@ -119,21 +115,13 @@ class FileField(QWidget):
 
     def set_line_style_combo(self):
         self.line_style_combo.setMinimumWidth(80)
-        #マーカーなし
+        #lineなし
         self.line_style_combo.addItem('None', 'None')
 
         #default.jsonから線のリストを取得してセット
         lines = Util.load_items()['lines']
-        for key, value : lines.items():
+        for key, value in lines.items():
             self.line_style_combo.addItem(key, value)
-        
-
-        # self.line_style_combo.addItem('None', 'None')
-        # self.line_style_combo.addItem('-', '-')
-        # self.line_style_combo.addItem(':', ':')
-        # self.line_style_combo.addItem('--', '--')
-        # self.line_style_combo.addItem('-.', '-.')
-        
 
     def set_marker_style_combo(self):
         self.marker_style_combo.setMinimumWidth(80)
@@ -142,21 +130,8 @@ class FileField(QWidget):
 
         #default.jsonからマーカのリストを取得してセット
         markers = Util.load_items()['markers']
-        for key, value : markers.items():
+        for key, value in markers.items():
             self.marker_style_combo.addItem(key, value)
-        
-
-        # self.marker_style_combo.addItem('o', 'o')
-        # self.marker_style_combo.addItem('x', 'x')
-        # self.marker_style_combo.addItem('+', '+')
-        # self.marker_style_combo.addItem('△', '^')
-        # self.marker_style_combo.addItem('▽', 'v')
-        # self.marker_style_combo.addItem('<', '<')
-        # self.marker_style_combo.addItem('>', '>')
-        # self.marker_style_combo.addItem('□', 's')
-        # self.marker_style_combo.addItem('◇', 'D')
-        # self.marker_style_combo.addItem('☆', '*')
-        
 
     def set_color_combo(self, combo):
         combo.setMinimumWidth(120)
@@ -168,27 +143,10 @@ class FileField(QWidget):
         for key, value in colors.items():
             combo.addItem(key, value)
 
-        # combo.addItem('Black', 'black')
-        # combo.addItem('Red', 'red')
-        # combo.addItem('Blue', 'blue')
-        # combo.addItem('Green', 'green')
-        # combo.addItem('Pink', 'pink')
-        # combo.addItem('Purple', 'purple')
-        # combo.addItem('Brown', 'brown')
-        # combo.addItem('Magenta', 'magenta')
-        # combo.addItem('Yellow', 'yellow')
-        # combo.addItem('Orange', 'orange')
-        # combo.addItem('Light blue', 'light blue')
-        
-
     def file_open(self):
-        if(self.base_dir = os.path.expanduser('~'))
-        # filename = QFileDialog.getOpenFileName(self, "Open file", self.base_dir)
         filename = QFileDialog.getOpenFileName(self, "Open file")
         if filename[0] != '':
             self.file_edit.setText(filename[0])
-            #次回のファイル
-            self.parent.broadcast_base_dir(os.path.dirname(filename[0]))
 
             #indexのデータの読み込んで反映
             self.set_axis_label(self.file_edit.text())
