@@ -4,13 +4,13 @@
     "title_font" : "12",
     "legend_status" : "enable",
     "legend_position" : "best",
+    "legend_font" : "12",
     "tick_font" : "12",
 
     "tab" : {
         "data" : {
             "data_type" : "File",
             "legend_style" : "Text",
-            "legend_font" : "12",
             "linestyle" : "-",
             "line_color" : "Auto",
             "line_width" : "1",
