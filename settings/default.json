@@ -6,60 +6,18 @@
     "legend_position" : "best",
     "tick_font" : "12",
 
-    "data0" : {
-        "data_type" : "File",
-        "legend_style" : "Text",
-        "legend_font" : "12",
-        "linestyle" : "-",
-        "line_color" : "Auto",
-        "line_width" : "1",
-        "marker" : "o",
-        "marker_color" : "Auto",
-        "marker_size" : "2"
-    },
-    "data1" : {
-        "data_type" : "File",
-        "legend_style" : "Text",
-        "legend_font" : "12",
-        "linestyle" : "-",
-        "line_color" : "Auto",
-        "line_width" : "1",
-        "marker" : "o",
-        "marker_color" : "Auto",
-        "marker_size" : "2"
-    },
-    "data2" : {
-        "data_type" : "File",
-        "legend_style" : "Text",
-        "legend_font" : "12",
-        "linestyle" : "-",
-        "line_color" : "Auto",
-        "line_width" : "1",
-        "marker" : "o",
-        "marker_color" : "Auto",
-        "marker_size" : "2"
-    },
-    "data3" : {
-        "data_type" : "File",
-        "legend_style" : "Text",
-        "legend_font" : "12",
-        "linestyle" : "-",
-        "line_color" : "Auto",
-        "line_width" : "1",
-        "marker" : "o",
-        "marker_color" : "Auto",
-        "marker_size" : "2"
-    },
-    "data4" : {
-        "data_type" : "File",
-        "legend_style" : "Text",
-        "legend_font" : "12",
-        "linestyle" : "-",
-        "line_color" : "Auto",
-        "line_width" : "1",
-        "marker" : "o",
-        "marker_color" : "Auto",
-        "marker_size" : "2"
+    "tab" : {
+        "data" : {
+            "data_type" : "File",
+            "legend_style" : "Text",
+            "legend_font" : "12",
+            "linestyle" : "-",
+            "line_color" : "Auto",
+            "line_width" : "1",
+            "marker" : "o",
+            "marker_color" : "Auto",
+            "marker_size" : "2"
+        }
     },
     "X_axis" : {
         "style" : "LaTeX",
