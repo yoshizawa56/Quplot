@@ -5,7 +5,7 @@ plotを実行するクラス
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "05 November 2018"
+__date__    = "06 November 2018"
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -52,19 +52,18 @@ class Plot:
                         continue
 
                     #xの範囲を定義
-                    if conf.get('range', False):
-                        min, max = conf['range'].split(':')
+                    if conf.get('function_range', False):
+                        min, max = conf['function_range'].split(':')
                         min, max = float(min), float(max)
                     else:
+                        #実装
                         print('test')
 
-                    min, max = 0, 300
+                    # min, max = 0, 300
                     x = np.arange(min, max, (max-min)/500)
-                    print(conf['function'])
+
                     #function領域に書かれているコードを実行してyのデータを構築
-                    #exec('y = ' + conf['function'])
-                    y = np.sin(x)
-                    print(len(x), len(y))
+                    exec('y = ' + conf['function'])
 
                 #plotのオプションを構築
                 options = {}
