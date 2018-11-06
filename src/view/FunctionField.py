@@ -9,7 +9,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "02 November 2018"
+__date__    = "06 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QCheckBox, QComboBox)
@@ -41,15 +41,10 @@ class FunctionField(QWidget):
         self.legend_combo.addItem('Text')
         self.legend_combo.setItemData(1, 'Text')
         self.legend_combo.setMinimumWidth(80)
-        legend_font_label = QLabel('Font size : ')
-        self.legend_font_edit = QLineEdit()
-        self.legend_font_edit.setFixedWidth(25)
         legend_widgets = [
             legend_label,
             self.legend_edit,
             self.legend_combo,
-            legend_font_label,
-            self.legend_font_edit
         ]
 
         #linestyle設定
@@ -71,13 +66,23 @@ class FunctionField(QWidget):
             self.line_width_edit
         ]
 
+        #range設定
+        range_label = QLabel('Range : ')
+        self.range_edit = QLineEdit()
+        self.range_edit.setPlaceholderText('~:~')
+        range_widget = [
+            range_label,
+            self.range_edit
+        ]
+
         #selfに各子Widgetを割り当てる
         self.setLayout(
             Util.Vlayout(
                 [
                     Util.Hbox(function_widgets),
                     Util.Hbox(legend_widgets),
-                    Util.Hbox(linestyle_widgets)
+                    Util.Hbox(linestyle_widgets),
+                    Util.Hbox(range_widget)
                 ]
             )
         )
@@ -86,57 +91,56 @@ class FunctionField(QWidget):
             ('function', self.function_edit),
             ('legend', self.legend_edit),
             ('legend_style', self.legend_combo),
-            ('legend_font', self.legend_font_edit),
             ('linestyle', self.line_style_combo),
             ('line_color', self.line_color_combo),
-            ('line_width', self.line_width_edit)
+            ('line_width', self.line_width_edit),
+            ('function_range', self.range_edit)
         ]
 
     def set_line_style_combo(self):
-        self.line_style_combo.addItem('None', 'None')
-        self.line_style_combo.addItem('-', '-')
-        self.line_style_combo.addItem('--', '--')
-        self.line_style_combo.addItem('-.', '-.')
         self.line_style_combo.setMinimumWidth(80)
-        #TODO linestyleを追加
+        #マーカーなし
+        self.line_style_combo.addItem('None', 'None')
+
+        #default.jsonから線のリストを取得してセット
+        lines = Util.load_items()['lines']
+        for key, value : lines.items():
+            self.line_style_combo.addItem(key, value)
+
+        # self.line_style_combo.addItem('-', '-')
+        # self.line_style_combo.addItem(':', ':')
+        # self.line_style_combo.addItem('--', '--')
+        # self.line_style_combo.addItem('-.', '-.')
 
     def set_color_combo(self, combo):
-        combo.addItem('Auto', 'Auto')
-        combo.addItem('Black', 'Black')
         combo.setMinimumWidth(120)
-        #TODO colorを追加
+        #自動選択
+        combo.addItem('Auto', 'Auto')
+
+        #default.jsonから色のリストを取得してセット
+        colors = Util.load_items()['colors']
+        for key, value in colors.items():
+            combo.addItem(key, value)
+
+        # combo.addItem('Auto', 'Auto')
+        # combo.addItem('Black', 'black')
+        # combo.addItem('Red', 'red')
+        # combo.addItem('Blue', 'blue')
+        # combo.addItem('Green', 'green')
+        # combo.addItem('Pink', 'pink')
+        # combo.addItem('Purple', 'purple')
+        # combo.addItem('Brown', 'brown')
+        # combo.addItem('Magenta', 'magenta')
+        # combo.addItem('Yellow', 'yellow')
+        # combo.addItem('Orange', 'orange')
+        # combo.addItem('Light blue', 'light blue')
+        
 
     def config_dict(self):
-        return Util.config_dict(self.contents)
+        return Util.config_dict(self.contents).update('marker' : 'None')
 
     def set_default_config(self, default_config_dict):
         Util.set_default(default_config_dict, self.contents)
 
     def set_config(self, config_dict):
         Util.set_config(config_dict, self.contents)
-
-    # def config_dict(self):
-    #     config = {
-    #         'function' : self.function_edit.text(),
-    #         'legend' : self.legend_edit.text(),
-    #         'legend_style' : Util.combo_data(self.legend_combo),
-    #         'legend_font' : self.legend_font_edit.text(),
-    #         'linestyle' : Util.combo_data(self.line_style_combo),
-    #         'line_color' : Util.combo_data(self.line_color_combo),
-    #         'line_width' : self.line_width_edit.text()
-    #     }
-
-    #     return config
-
-    # def set_default_config(self, default_config_dict):
-    #     target_list = [
-    #         ('legend_style', self.legend_combo),
-    #         ('legend_font', self.legend_font_edit),
-    #         ('linestyle', self.line_style_combo),
-    #         ('line_color', self.line_color_combo),
-    #         ('line_width', self.line_width_edit)
-    #     ]
-
-    #     Util.set_default(default_config_dict, target_list)
-
-

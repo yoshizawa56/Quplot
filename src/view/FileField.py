@@ -8,7 +8,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "05 November 2018"
+__date__    = "06 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog)
@@ -48,15 +48,10 @@ class FileField(QWidget):
         self.legend_combo.addItem('LaTeX', 'LaTeX')
         self.legend_combo.addItem('Text', 'Text')
         self.legend_combo.setMinimumWidth(80)
-        legend_font_label = QLabel('Font size : ')
-        self.legend_font_edit = QLineEdit()
-        self.legend_font_edit.setFixedWidth(25)
         legend_widgets = [
             legend_label,
             self.legend_edit,
             self.legend_combo,
-            legend_font_label,
-            self.legend_font_edit
         ]
 
         #linestyle設定
@@ -114,7 +109,6 @@ class FileField(QWidget):
             ('file', self.file_edit),
             ('legend', self.legend_edit),
             ('legend_style', self.legend_combo),
-            ('legend_font', self.legend_font_edit),
             ('linestyle', self.line_style_combo),
             ('line_color', self.line_color_combo),
             ('line_width', self.line_width_edit),
@@ -124,48 +118,81 @@ class FileField(QWidget):
         ]
 
     def set_line_style_combo(self):
-        self.line_style_combo.addItem('None', 'None')
-        self.line_style_combo.addItem('-', '-')
-        self.line_style_combo.addItem('--', '--')
-        self.line_style_combo.addItem('-.', '-.')
         self.line_style_combo.setMinimumWidth(80)
-        #TODO linestyleを追加
+        #マーカーなし
+        self.line_style_combo.addItem('None', 'None')
+
+        #default.jsonから線のリストを取得してセット
+        lines = Util.load_items()['lines']
+        for key, value : lines.items():
+            self.line_style_combo.addItem(key, value)
+        
+
+        # self.line_style_combo.addItem('None', 'None')
+        # self.line_style_combo.addItem('-', '-')
+        # self.line_style_combo.addItem(':', ':')
+        # self.line_style_combo.addItem('--', '--')
+        # self.line_style_combo.addItem('-.', '-.')
+        
 
     def set_marker_style_combo(self):
-        self.marker_style_combo.addItem('None', 'None')
-        self.marker_style_combo.addItem('o', 'o')
-        self.marker_style_combo.addItem('x', 'x')
-        self.marker_style_combo.addItem('^', '^')
-        self.marker_style_combo.addItem('s', 's')
-        self.marker_style_combo.addItem('*', '*')
         self.marker_style_combo.setMinimumWidth(80)
-        #TODO linestyleを追加
+        #マーカーなし
+        self.marker_style_combo.addItem('None', 'None')
+
+        #default.jsonからマーカのリストを取得してセット
+        markers = Util.load_items()['markers']
+        for key, value : markers.items():
+            self.marker_style_combo.addItem(key, value)
+        
+
+        # self.marker_style_combo.addItem('o', 'o')
+        # self.marker_style_combo.addItem('x', 'x')
+        # self.marker_style_combo.addItem('+', '+')
+        # self.marker_style_combo.addItem('△', '^')
+        # self.marker_style_combo.addItem('▽', 'v')
+        # self.marker_style_combo.addItem('<', '<')
+        # self.marker_style_combo.addItem('>', '>')
+        # self.marker_style_combo.addItem('□', 's')
+        # self.marker_style_combo.addItem('◇', 'D')
+        # self.marker_style_combo.addItem('☆', '*')
+        
 
     def set_color_combo(self, combo):
-        combo.addItem('Auto', 'Auto')
-        combo.addItem('Black', 'black')
-        combo.addItem('Red', 'red')
-        combo.addItem('Blue', 'blue')
         combo.setMinimumWidth(120)
-        #TODO colorを追加
+        #自動選択
+        combo.addItem('Auto', 'Auto')
+
+        #default.jsonから色のリストを取得してセット
+        colors = Util.load_items()['colors']
+        for key, value in colors.items():
+            combo.addItem(key, value)
+
+        # combo.addItem('Black', 'black')
+        # combo.addItem('Red', 'red')
+        # combo.addItem('Blue', 'blue')
+        # combo.addItem('Green', 'green')
+        # combo.addItem('Pink', 'pink')
+        # combo.addItem('Purple', 'purple')
+        # combo.addItem('Brown', 'brown')
+        # combo.addItem('Magenta', 'magenta')
+        # combo.addItem('Yellow', 'yellow')
+        # combo.addItem('Orange', 'orange')
+        # combo.addItem('Light blue', 'light blue')
+        
 
     def file_open(self):
-        #TODO 始点となるディレクトリをどうするか
-        self.base_dir = '~/'
-        filename = QFileDialog.getOpenFileName(self, "Open file", self.base_dir)
+        if(self.base_dir = os.path.expanduser('~'))
+        # filename = QFileDialog.getOpenFileName(self, "Open file", self.base_dir)
+        filename = QFileDialog.getOpenFileName(self, "Open file")
         if filename[0] != '':
             self.file_edit.setText(filename[0])
             #次回のファイル
             self.parent.broadcast_base_dir(os.path.dirname(filename[0]))
 
-            #indexのデータの読み込み
+            #indexのデータの読み込んで反映
             self.set_axis_label(self.file_edit.text())
 
-    def config_dict(self):
-        return Util.config_dict(self.contents)
-
-    def set_default_config(self, default_config_dict):
-        Util.set_default(default_config_dict, self.contents)
 
     def set_axis_label(self, filename):
         #TODO 実装が気持ち悪いから修正したい
@@ -183,6 +210,12 @@ class FileField(QWidget):
                 self.parent.parent.y_axis.set_index_item(items, titles)
         except IOError:
                 print('error')
+
+    def config_dict(self):
+        return Util.config_dict(self.contents)
+
+    def set_default_config(self, default_config_dict):
+        Util.set_default(default_config_dict, self.contents)
 
     def set_config(self, config_dict):
         Util.set_config(config_dict, self.contents)

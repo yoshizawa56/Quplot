@@ -8,7 +8,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "03 November 2018"
+__date__    = "06 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QCheckBox, QComboBox)
@@ -32,7 +32,6 @@ class GeneralSetting(QWidget):
         import_widget = QWidget()
         import_widget.setLayout(import_layout)
 
-
         #タイトルの編集
         title_label = QLabel('Title : ')
         self.title_edit = QLineEdit()
@@ -53,11 +52,16 @@ class GeneralSetting(QWidget):
         legend_position_label = QLabel('Position : ')
         self.legend_combo = QComboBox()
         self.set_legend_combo()
+        legend_font_label = QLabel('Font size : ')
+        self.legend_font_edit = QLineEdit()
+        self.title_font_edit.setMaximumWidth(25)
         legend_widgets = [
             legend_label,
             self.legend_checkbox,
             legend_position_label,
-            self.legend_combo
+            self.legend_combo,
+            legend_font_label,
+            self.legend_font_edit
         ]
 
         #Tick labelの設定
@@ -87,6 +91,7 @@ class GeneralSetting(QWidget):
             ('title_font', self.title_font_edit),
             ('legend_status', self.legend_checkbox),
             ('legend_position', self.legend_combo),
+            ('legend_font', self.legend_font_edit),
             ('tick_font', self.tick_edit)
         ]
 
@@ -98,27 +103,10 @@ class GeneralSetting(QWidget):
         self.legend_combo.addItem('Lower Left', 'lower left')
 
     def config_dict(self):
-        # config = {
-        #     'title' : self.title_edit.text(),
-        #     'title_font' : self.title_font_edit.text(),
-        #     'legend_status' : self.legend_checkbox.isChecked(),
-        #     'legend_position' : Util.combo_data(self.legend_combo),
-        #     'tick_font' : self.tick_edit.text()
-        # }
-
         return Util.config_dict(self.contents)
 
     def set_default_config(self, default_config_dict):
         Util.set_default(default_config_dict, self.contents)
-        # target_list = [
-        #     ('title_font', self.title_font_edit),
-        #     ('legend_status', self.legend_checkbox),
-        #     ('legend_position', self.legend_combo),
-        #     ('tick_font', self.tick_edit)
-        # ]
-
-        # Util.set_default(default_config_dict, target_list)
 
     def set_config(self, config_dict):
         Util.set_config(config_dict, self.contents)
-
