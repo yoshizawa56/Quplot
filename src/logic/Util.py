@@ -75,15 +75,16 @@ class Util:
         for key, default in default_config_dict.items():
             #keyが'data'の場合には、すべてのdataタブにデフォルト設定を適用
             if key == 'tab':
-                for i in default:
-                    ikey = 'data' + str(i)
-                    if config_dict.get(ikey, False):
-                        config[ikey] = Util.fill_by_default(config_dict[ikey], default_config_dict[key])
+                data_default_config = default_config_dict['tab']['data']
+                for key, config in config_dict['tab'].items():
+                    config['tab'][key] = Util.fill_by_default(config, data_default_config)
 
             #辞書が入れ子になっている場合は再帰的にデフォルト設定を適用
             elif type(default) == dict:
                 if config_dict.get(key, False):
-                    config[key] = Util.fill_by_default(config_dict[key],default_config_dict[key])
+                    config[key] = Util.fill_by_default(
+                        config_dict[key],
+                        default_config_dict[key])
             else:
                 if(config_dict.get(key, None) == None):
                     config[key] = default
