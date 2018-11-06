@@ -26,4 +26,4 @@ class Canvas(QWidget):
         self.fig = plt.Figure()
         self.axes = self.fig.add_subplot(111)
         self.canvas = FigureCanvas(self.fig)
-        self.canvas.setFixedSize(400,300)
+        self.canvas.setFixedSize(420,340)
