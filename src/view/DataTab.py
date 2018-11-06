@@ -69,8 +69,3 @@ class DataTab(QTabWidget):
         if self.count > 0:
             self.removeTab(index)
             self.count -= 1
-
-    def broadcast_base_dir(self, base_dir):
-        self.base_dir = base_dir
-        for i in range(self.count):
-            self.widget(i).data.base_dir = base_dir
