@@ -73,8 +73,15 @@ class Util:
     def fill_by_default(config_dict, default_config_dict):
         config = config_dict
         for key, default in default_config_dict.items():
+            #keyが'data'の場合には、すべてのdataタブにデフォルト設定を適用
+            if key == 'tab':
+                for i in default:
+                    ikey = 'data' + str(i)
+                    if config_dict.get(ikey, False):
+                        config[ikey] = Util.fill_by_default(config_dict[ikey], default_config_dict[key])
+
             #辞書が入れ子になっている場合は再帰的にデフォルト設定を適用
-            if type(default) == dict:
+            elif type(default) == dict:
                 if config_dict.get(key, False):
                     config[key] = Util.fill_by_default(config_dict[key],default_config_dict[key])
             else:
@@ -82,7 +89,6 @@ class Util:
                     config[key] = default
 
         return config
-
 
     #デフォルト設定ファイルを読み込む。
     #デフォルト設定ファイルが破損していないか、マスターファイルと比較
@@ -103,6 +109,15 @@ class Util:
         #         default_config_dict[key] = val
 
         return default_config_dict
+
+    #itemsファイルを読み込む
+    @staticmethod
+    def load_items():
+        base = os.path.dirname(os.path.abspath(__file__))
+        items_file = os.path.normpath(os.path.join(base, '../../settings/items.json'))
+        with open(items_file) as f:
+            items = json.load(f)
+        return items
 
     #
     @staticmethod
