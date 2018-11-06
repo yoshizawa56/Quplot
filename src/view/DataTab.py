@@ -40,11 +40,11 @@ class DataTab(QTabWidget):
                 {'data' + str(i) : self.widget(i).config_dict()}
             )
 
-        return config
+        return {'tab' : config}
 
     def set_default_config(self, default_config_dict):
         for i in range(self.count):
-            self.widget(i).set_default_config(default_config_dict['data0'])
+            self.widget(i).set_default_config(default_config_dict['tab']['data'])
 
     def set_config(self, config_dict):
         #tabの初期化
@@ -53,19 +53,16 @@ class DataTab(QTabWidget):
         self.count = 0
 
         #設定の分だけタブを追加
-        for i in range(20):
-            if config_dict.get('data' + str(i), False):
-                widget = DataField(self)
-                widget.set_default_config(Util.load_default_config()['data0'])
-                widget.set_config(config_dict['data' + str(i)])
-                self.insertTab(self.count, widget, 'Data' + str(self.count + 1))
-                self.count += 1
-            else:
-                break
+        for key in config_dict['tab']:
+            widget = DataField(self)
+            widget.set_default_config(Util.load_default_config()['tab']['data'])
+            widget.set_config(config_dict['tab'][key])
+            self.insertTab(self.count, widget, 'Data' + str(self.count + 1))
+            self.count += 1
 
     def add_tab(self):
         self.insertTab(self.count, DataField(self), 'Data' + str(self.count+1))
-        self.widget(self.count).set_default_config(Util.load_default_config()['data0'])
+        self.widget(self.count).set_default_config(Util.load_default_config()['tab']['data'])
         self.count += 1
 
     def delete_tab(self, index):
