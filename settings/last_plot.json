@@ -1,46 +1,42 @@
 {
-    "data0": {
-        "data_type": "File",
-        "file": "/Users/T.Yoshizawa/pyqtplot/sample/sample_data/sample2.txt",
-        "legend": "test",
-        "legend_style": "Text",
-        "linestyle": "-",
-        "line_color": "Auto",
-        "line_width": "2",
-        "marker": "None",
-        "marker_color": "red",
-        "marker_size": "3"
-    },
-    "data1": {
-        "data_type": "File",
-        "file": "/Users/T.Yoshizawa/pyqtplot/sample/sample_data/sample1.txt",
-        "legend": "test2",
-        "legend_style": "Text",
-        "linestyle": "-.",
-        "line_color": "Auto",
-        "line_width": "1",
-        "marker": "None",
-        "marker_color": "Auto"
+    "tab": {
+        "data0": {
+            "data_type": "File",
+            "file": "/Users/T.Yoshizawa/pyqtplot/sample/sample_data/sample1.txt",
+            "legend": "plot1",
+            "legend_style": "Text",
+            "linestyle": "-",
+            "line_color": "#000000",
+            "marker": "o",
+            "marker_color": "#e50000"
+        },
+        "data1": {
+            "data_type": "Function",
+            "function": "np.sin(0.1*x) + 1",
+            "legend": "plot2",
+            "legend_style": "Text",
+            "linestyle": "-",
+            "line_color": "Auto",
+            "function_range": "-300:300",
+            "marker": "None"
+        }
     },
     "X_axis": {
         "title": "k",
         "style": "LaTeX",
         "index": "0",
-        "font": "10",
         "scale": "Linear",
-        "range": "0:100"
+        "range": "0:300"
     },
     "Y_axis": {
         "title": "\\hat{f}(k)",
         "style": "LaTeX",
         "index": "1",
-        "font": "10",
-        "scale": "Log"
+        "scale": "Linear",
+        "range": "0:3"
     },
-    "title": "kumichan",
-    "title_font": "10",
+    "title": "test plot",
+    "title_font": "16",
     "legend_status": "enable",
-    "legend_position": "best",
-    "tick_font": "10",
-    "save_file": "/Users/T.Yoshizawa/fig/test.png"
+    "legend_position": "upper left"
 }
