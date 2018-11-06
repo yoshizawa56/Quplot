@@ -31,7 +31,7 @@ class PlotTab(QTabWidget):
         self.insertTab(0, PlotField(), 'Plot1')
         self.count = 1
 
-        self.setFixedSize(1100, 750)
+        self.setFixedSize(1120, 750)
 
 
     def add_tab(self):

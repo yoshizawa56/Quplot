@@ -5,7 +5,7 @@ Utilクラス
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "04 November 2018"
+__date__    = "06 November 2018"
 
 import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
@@ -76,8 +76,8 @@ class Util:
             #keyが'data'の場合には、すべてのdataタブにデフォルト設定を適用
             if key == 'tab':
                 data_default_config = default_config_dict['tab']['data']
-                for key, config in config_dict['tab'].items():
-                    config['tab'][key] = Util.fill_by_default(config, data_default_config)
+                for key, conf in config_dict['tab'].items():
+                    config['tab'][key] = Util.fill_by_default(conf, data_default_config)
 
             #辞書が入れ子になっている場合は再帰的にデフォルト設定を適用
             elif type(default) == dict:
@@ -86,7 +86,7 @@ class Util:
                         config_dict[key],
                         default_config_dict[key])
             else:
-                if(config_dict.get(key, None) == None):
+                if not config_dict.get(key, False):
                     config[key] = default
 
         return config

@@ -8,7 +8,7 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "02 November 2018"
+__date__    = "06 November 2018"
 
 from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog
 import os
@@ -113,4 +113,5 @@ class PlotField(QWidget):
         filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
         Util.save_export_file(filename, self.config_dict())
         config = Util.fill_by_default(self.config_dict(), Util.load_default_config())
+        
         Plot.execute(self.canvas, config)

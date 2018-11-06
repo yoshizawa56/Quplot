@@ -99,18 +99,11 @@ class FunctionField(QWidget):
 
     def set_line_style_combo(self):
         self.line_style_combo.setMinimumWidth(80)
-        #マーカーなし
-        self.line_style_combo.addItem('None', 'None')
 
         #default.jsonから線のリストを取得してセット
         lines = Util.load_items()['lines']
-        for key, value : lines.items():
+        for key, value in lines.items():
             self.line_style_combo.addItem(key, value)
-
-        # self.line_style_combo.addItem('-', '-')
-        # self.line_style_combo.addItem(':', ':')
-        # self.line_style_combo.addItem('--', '--')
-        # self.line_style_combo.addItem('-.', '-.')
 
     def set_color_combo(self, combo):
         combo.setMinimumWidth(120)
@@ -122,22 +115,10 @@ class FunctionField(QWidget):
         for key, value in colors.items():
             combo.addItem(key, value)
 
-        # combo.addItem('Auto', 'Auto')
-        # combo.addItem('Black', 'black')
-        # combo.addItem('Red', 'red')
-        # combo.addItem('Blue', 'blue')
-        # combo.addItem('Green', 'green')
-        # combo.addItem('Pink', 'pink')
-        # combo.addItem('Purple', 'purple')
-        # combo.addItem('Brown', 'brown')
-        # combo.addItem('Magenta', 'magenta')
-        # combo.addItem('Yellow', 'yellow')
-        # combo.addItem('Orange', 'orange')
-        # combo.addItem('Light blue', 'light blue')
-        
-
     def config_dict(self):
-        return Util.config_dict(self.contents).update('marker' : 'None')
+        config = Util.config_dict(self.contents)
+        config.update(marker='None')
+        return config
 
     def set_default_config(self, default_config_dict):
         Util.set_default(default_config_dict, self.contents)
