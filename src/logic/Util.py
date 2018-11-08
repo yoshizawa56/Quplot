@@ -9,7 +9,9 @@ __date__    = "06 November 2018"
 
 import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
-                            QLineEdit, QCheckBox, QComboBox)
+                            QLineEdit, QCheckBox, QComboBox,
+                            QComboBox)
+from PyQt5
 import os
 
 class Util:
@@ -171,6 +173,18 @@ class Util:
     @staticmethod
     def combo_data(combo):
         return combo.itemData(combo.currentIndex())
+
+    #色指定用のcomboBoxをセット
+    @staticmethod
+    def set_color_combo(combo):
+        combo.setMinimumWidth(120)
+        #自動選択
+        combo.addItem('Auto', 'Auto')
+
+        #default.jsonから色のリストを取得してセット
+        colors = Util.load_items()['colors']
+        for key, value in colors.items():
+            combo.addItem(key, value)
 
 
 

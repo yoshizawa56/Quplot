@@ -56,7 +56,7 @@ class FileField(QWidget):
         self.set_line_style_combo()
         line_color_label = QLabel('Color : ')
         self.line_color_combo = QComboBox()
-        self.set_color_combo(self.line_color_combo)
+        Util.set_color_combo(self.line_color_combo)
         line_width_label = QLabel('Width : ')
         self.line_width_edit = QLineEdit()
         self.line_width_edit.setMaximumWidth(25)
@@ -75,7 +75,7 @@ class FileField(QWidget):
         self.set_marker_style_combo()
         marker_color_label = QLabel('Color : ')
         self.marker_color_combo = QComboBox()
-        self.set_color_combo(self.marker_color_combo)
+        Util.set_color_combo(self.marker_color_combo)
         marker_size_label = QLabel('Size : ')
         self.marker_size_edit = QLineEdit()
         self.marker_size_edit.setFixedWidth(25)
@@ -132,16 +132,6 @@ class FileField(QWidget):
         markers = Util.load_items()['markers']
         for key, value in markers.items():
             self.marker_style_combo.addItem(key, value)
-
-    def set_color_combo(self, combo):
-        combo.setMinimumWidth(120)
-        #自動選択
-        combo.addItem('Auto', 'Auto')
-
-        #default.jsonから色のリストを取得してセット
-        colors = Util.load_items()['colors']
-        for key, value in colors.items():
-            combo.addItem(key, value)
 
     def file_open(self):
         filename = QFileDialog.getOpenFileName(self, "Open file")
