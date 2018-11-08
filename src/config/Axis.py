@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
 from ..logic.Util import Util
 import os
 
-class Default(QWidget):
+class Axis(QWidget):
     def __init__(self, axis, parent=None):
         super().__init__()
         self.axis = axis
@@ -26,7 +26,7 @@ class Default(QWidget):
     def setup_ui(self):
         #軸名
         axis_label = QLabel('Axis title style : ')
-        elf.axis_style_combo = QComboBox()
+        self.axis_style_combo = QComboBox()
         self.axis_style_combo.addItem('LaTeX', 'LaTeX')
         self.axis_style_combo.addItem('Text', 'Text')
         self.axis_style_combo.setMinimumWidth(80)
@@ -50,6 +50,14 @@ class Default(QWidget):
             scale_label,
             self.scale_combo
         ]
+
+        #適用ボタン
+        apply_widget = QWidget()
+        self.apply_button = QPushButton('Apply')
+        apply_layout = QHBoxLayout()
+        apply_layout.setStretch(0,0)
+        apply_layout.addWidget(self.apply_button)
+        apply_widget.setLayout(apply_layout)
 
         #selfに各子Widgetを割り当てる
         self.setLayout(

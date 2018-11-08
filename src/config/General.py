@@ -10,7 +10,7 @@ __status__ = "production"
 __version__ = "0.1.0"
 __date__    = "08 November 2018"
 
-from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
+from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout, QCheckBox,
         QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog)
 from ..logic.Util import Util
 import os
@@ -33,7 +33,7 @@ class General(QWidget):
         save_widgets = [
             save_label,
             self.save_edit,
-            self.save_referece
+            self.save_reference
         ]
 
         #keyword設定
@@ -60,7 +60,8 @@ class General(QWidget):
         self.legend_checkbox = QCheckBox()
         legend_position_label = QLabel('Position : ')
         self.legend_combo = QComboBox()
-        self.set_legend_combo()
+        self.legend_combo.addItem('Text', 'Text')
+        self.legend_combo.addItem('LaTeX', 'LaTeX')
         legend_font_label = QLabel('Font size : ')
         self.legend_font_edit = QLineEdit()
         self.title_font_edit.setMaximumWidth(25)
@@ -84,9 +85,9 @@ class General(QWidget):
 
         #適用ボタン
         apply_widget = QWidget()
-        self.apply_button('Apply')
+        self.apply_button = QPushButton('Apply')
         apply_layout = QHBoxLayout()
-        apply_layout.setStretch(1)
+        apply_layout.setStretch(0,0)
         apply_layout.addWidget(self.apply_button)
         apply_widget.setLayout(apply_layout)
 
@@ -115,7 +116,7 @@ class General(QWidget):
             ('tick_font', self.tick_edit)
         ]
 
-        def apply(self):
+    def apply(self):
         current_default = Util.load_default_config()
         for key, value in Util.config_dict(self.contents).items():
             current_default[key] = value

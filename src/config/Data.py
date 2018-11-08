@@ -21,7 +21,6 @@ class Data(QWidget):
         self.setup_ui()
 
         self.apply_button.clicked.connect(self.apply)
-        self.clear_button.clicked.connect(self.clear)
 
     def setup_ui(self):
         #データソースの種類の選択領域
@@ -68,7 +67,7 @@ class Data(QWidget):
         #marker設定
         marker_label = QLabel('Marker : ')
         self.marker_style_combo = QComboBox()
-        Util.set_marker_style_combo(self.merker_style_combo)
+        Util.set_marker_style_combo(self.marker_style_combo)
         marker_color_label = QLabel('Color : ')
         self.marker_color_combo = QComboBox()
         Util.set_color_combo(self.marker_color_combo)
@@ -86,12 +85,10 @@ class Data(QWidget):
 
         #適用ボタン
         apply_widget = QWidget()
-        self.apply_button('Apply')
-        self.clear_button('Clear')
+        self.apply_button = QPushButton('Apply')
         apply_layout = QHBoxLayout()
-        apply_layout.setStretch(1)
+        apply_layout.setStretch(0,0)
         apply_layout.addWidget(self.apply_button)
-        apply_layout.addWidget(self.clear_button)
         apply_widget.setLayout(apply_layout)
 
         #selfに各子Widgetを割り当てる
@@ -102,7 +99,7 @@ class Data(QWidget):
                     Util.Hbox(legend_widgets),
                     Util.Hbox(linestyle_widgets),
                     Util.Hbox(marker_widgets),
-                    apply_layout
+                    apply_widget
                 ]
             )
         )
