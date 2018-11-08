@@ -11,7 +11,6 @@ import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
                             QLineEdit, QCheckBox, QComboBox,
                             QComboBox)
-from PyQt5
 import os
 
 class Util:
@@ -94,22 +93,12 @@ class Util:
         return config
 
     #デフォルト設定ファイルを読み込む。
-    #デフォルト設定ファイルが破損していないか、マスターファイルと比較
     @staticmethod
     def load_default_config():
         base = os.path.dirname(os.path.abspath(__file__))
         default_file = os.path.normpath(os.path.join(base, '../../settings/default.json'))
         with open(default_file) as f:
             default_config_dict = json.load(f)
-
-        #TODO マスターファイルの実装
-        # master_file = 'master.json'
-        # with open(master_file) as f:
-        #     master_config_dict = json.load(f)
-        
-        # for key, val in master_config_dict:
-        #     if default_config_dict.get(key, None) == None:
-        #         default_config_dict[key] = val
 
         return default_config_dict
 
@@ -134,6 +123,13 @@ class Util:
         if filename != '':
             with open(filename, 'w') as f:
                 f.write(json.dumps(config_dict, indent=4))
+            
+    @staticmethod
+    def export_default_config(default):
+        base = os.path.dirname(os.path.abspath(__file__))
+        default_file = os.path.normpath(os.path.join(base, '../../settings/default.json'))
+        with open(default_file, 'w') as f:
+            f.write(json.dumps(default, indent=4))
 
     #Widgetのリストを受け取り、QHBoxLayoutにセットして返す
     @staticmethod
@@ -184,6 +180,28 @@ class Util:
         #default.jsonから色のリストを取得してセット
         colors = Util.load_items()['colors']
         for key, value in colors.items():
+            combo.addItem(key, value)
+
+    @staticmethod
+    def set_line_style_combo(combo):
+        combo.setMinimumWidth(80)
+        #lineなし
+        combo.addItem('None', 'None')
+
+        #default.jsonから線のリストを取得してセット
+        lines = Util.load_items()['lines']
+        for key, value in lines.items():
+            combo.addItem(key, value)
+
+    @staticmethod
+    def set_marker_style_combo(combo):
+        combo.setMinimumWidth(80)
+        #マーカーなし
+        combo.addItem('None', 'None')
+
+        #default.jsonからマーカのリストを取得してセット
+        markers = Util.load_items()['markers']
+        for key, value in markers.items():
             combo.addItem(key, value)
 
 

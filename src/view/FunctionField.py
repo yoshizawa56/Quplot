@@ -50,7 +50,7 @@ class FunctionField(QWidget):
         #linestyle設定
         line_label = QLabel('Linestyle : ')
         self.line_style_combo = QComboBox()
-        self.set_line_style_combo()
+        Util.set_line_style_combo(self.line_style_combo)
         line_color_label = QLabel('Color : ')
         self.line_color_combo = QComboBox()
         Util.set_color_combo(self.line_color_combo)
@@ -96,14 +96,6 @@ class FunctionField(QWidget):
             ('line_width', self.line_width_edit),
             ('function_range', self.range_edit)
         ]
-
-    def set_line_style_combo(self):
-        self.line_style_combo.setMinimumWidth(80)
-
-        #default.jsonから線のリストを取得してセット
-        lines = Util.load_items()['lines']
-        for key, value in lines.items():
-            self.line_style_combo.addItem(key, value)
 
     def config_dict(self):
         config = Util.config_dict(self.contents)
