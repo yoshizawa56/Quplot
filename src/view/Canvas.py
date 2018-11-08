@@ -22,6 +22,8 @@ class Canvas(QWidget):
         super().__init__()
         self.setup_ui()
 
+        #self.canvas.mpl_connect('button_press_event', self.show_window)
+
     def setup_ui(self):
         self.fig = plt.Figure()
         self.axes = self.fig.add_subplot(111)

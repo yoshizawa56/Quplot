@@ -33,7 +33,6 @@ class Plot:
                 try:
                     data = np.loadtxt(conf['file'])
                 except IOError:
-                    print('error')
                     #QMessageBox.warning(w, "Message", u"File can't open !")
                     return
 
@@ -74,19 +73,17 @@ class Plot:
                 options.update(label=label)
 
             #lineの設定
-            if conf['linestyle'] != 'None':
-                options.update(linestyle=conf['linestyle'])
+            options.update(linestyle=conf['linestyle'])
             if conf['line_color'] != 'Auto':
                 options.update(color=conf['line_color'])
             options.update(linewidth=conf['line_width'])
 
             #markerの設定(Functionの場合にはないため省略)
-            if conf.get('marker', 'None') != 'None':
-                options.update(marker=conf['marker'])
-                if conf['marker_color'] != 'Auto':
-                    options.update(markerfacecolor=conf['marker_color'])
-                    options.update(markeredgecolor=conf['marker_color'])
-                options.update(markersize=conf['marker_size'])
+            options.update(marker=conf['marker'])
+            if conf['marker_color'] != 'Auto':
+                options.update(markerfacecolor=conf['marker_color'])
+                options.update(markeredgecolor=conf['marker_color'])
+            options.update(markersize=conf['marker_size'])
 
             #プロット実行
             axes.plot(x, y, **options)
