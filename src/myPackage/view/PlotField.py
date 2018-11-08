@@ -90,7 +90,7 @@ class PlotField(QWidget):
 
     def import_last_plot(self):
         base = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
+        filename = os.path.normpath(os.path.join(base, '../../../settings/last_plot.json'))
         self.set_config(Util.load_config(filename))
 
     def config_dict(self):
@@ -110,7 +110,7 @@ class PlotField(QWidget):
 
     def plot(self):
         base = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
+        filename = os.path.normpath(os.path.join(base, '../../../settings/last_plot.json'))
         Util.save_export_file(filename, self.config_dict())
         config = Util.fill_by_default(self.config_dict(), Util.load_default_config())
         

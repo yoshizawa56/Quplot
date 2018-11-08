@@ -96,7 +96,7 @@ class Util:
     @staticmethod
     def load_default_config():
         base = os.path.dirname(os.path.abspath(__file__))
-        default_file = os.path.normpath(os.path.join(base, '../../settings/default.json'))
+        default_file = os.path.normpath(os.path.join(base, '../../../settings/default.json'))
         with open(default_file) as f:
             default_config_dict = json.load(f)
 
@@ -106,7 +106,7 @@ class Util:
     @staticmethod
     def load_items():
         base = os.path.dirname(os.path.abspath(__file__))
-        items_file = os.path.normpath(os.path.join(base, '../../settings/items.json'))
+        items_file = os.path.normpath(os.path.join(base, '../../../settings/items.json'))
         with open(items_file) as f:
             items = json.load(f)
         return items
@@ -127,7 +127,7 @@ class Util:
     @staticmethod
     def export_default_config(default):
         base = os.path.dirname(os.path.abspath(__file__))
-        default_file = os.path.normpath(os.path.join(base, '../../settings/default.json'))
+        default_file = os.path.normpath(os.path.join(base, '../../../settings/default.json'))
         with open(default_file, 'w') as f:
             f.write(json.dumps(default, indent=4))
 
