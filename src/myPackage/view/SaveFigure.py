@@ -11,7 +11,7 @@ __version__ = "0.1.0"
 __date__    = "05 November 2018"
 
 from PyQt5.QtWidgets import (QGroupBox, QPushButton,
-                    QLabel, QLineEdit, QFileDialog)
+                    QLabel, QLineEdit, QFileDialog, QMessageBox)
 from ..logic.Util import Util
 from datetime import datetime as dt
 
@@ -66,6 +66,14 @@ class SaveFigure(QGroupBox):
 
     def save_figure(self):
         if str(self.file_edit.text()) == '':
+            conf = Util.load_config()
+            #デフォルトの保存先が定義されていない場合は終了
+            if not conf.get('fig_base_dir', False):
+                msg = QMessageBox()
+                msg.setText('デフォルトの保存先が設定されていません。設定画面から設定を行ってください。')
+                msd.exec_()
+                return
+
             base = Util.load_config()['fig_base_dir']
             time = dt.now().strftime('%Y_%m_%d_%H_%M')
             filename = base + time + '.pdf'
