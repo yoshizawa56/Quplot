@@ -10,7 +10,7 @@ __date__    = "09 November 2018"
 import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
                             QLineEdit, QCheckBox, QComboBox,
-                            QComboBox)
+                            QComboBox, QMessageBox)
 import os
 
 class Util:
@@ -45,10 +45,8 @@ class Util:
         elif filename == 'last':
             base = os.path.dirname(os.path.abspath(__file__))
             filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
-        try:
-            with open(filename) as f:
-                return json.load(f)
-        except IOError:
+        with open(filename) as f:
+            return json.load(f)
 
     #config_dictをもとに設定ファイルを作成して保存
     #filenameを省略した場合は、default.jsonに保存
@@ -65,6 +63,9 @@ class Util:
             with open(filename, 'w') as f:
                 f.write(json.dumps(config_dict, indent=4))
         except IOError:
+            msg = QMessageBox()
+            msg.setText('ファイルが開けませんでした')
+            msg.exec_()
 
     #contentsのリストから設定dictを出力
     @staticmethod

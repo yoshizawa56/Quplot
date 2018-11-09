@@ -9,6 +9,7 @@ __date__    = "06 November 2018"
 
 import numpy as np
 from matplotlib import pyplot as plt
+from PyQt5.Widgets import QMessageBox
 
 
 class Plot:
@@ -33,7 +34,9 @@ class Plot:
                 try:
                     data = np.loadtxt(conf['file'])
                 except IOError:
-                    #QMessageBox.warning(w, "Message", u"File can't open !")
+                    msg = QMessageBox()
+                    msg.setText('ファイルが開けませんでした')
+                    msg.exec_()
                     return
 
                 x = []
