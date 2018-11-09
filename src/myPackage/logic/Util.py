@@ -5,7 +5,7 @@ Utilクラス
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "06 November 2018"
+__date__    = "09 November 2018"
 
 import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
@@ -14,32 +14,19 @@ from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
 import os
 
 class Util:
-    #入力領域にデフォルトの値をセット
-    @staticmethod
-    def set_default(default_config_dict, contents):
-        for key, widget in contents:
-            #デフォルト設定に含まれているパラメータのみ設定
-            if default_config_dict.get(key, False):
-                value = default_config_dict[key]
-                if type(widget) == QLineEdit:
-                    widget.setPlaceholderText(value)
-                elif type(widget) == QCheckBox:
-                    if value == 'enable':
-                        widget.setCheckState(2)
-                    elif value == 'disable':
-                        widget.setCheckState(0)
-                elif type(widget) == QComboBox:
-                    widget.setCurrentIndex(widget.findData(value))
-
     #入力領域に設定値をセット
+    #modeに何らかの文字列（'default'を推奨）がセットされている場合はデフォルト設定
     @staticmethod
-    def set_config(config_dict, contents):
+    def set_config(config_dict, contents, mode=''):
         for key, widget in contents:
             #設定に含まれているパラメータのみ設定
             if config_dict.get(key, False):
                 value = config_dict[key]
                 if type(widget) == QLineEdit:
-                    widget.setText(value)
+                    if mode == '':
+                        widget.setText(value)
+                    else:
+                        widget.setPlaceholderText(value)
                 elif type(widget) == QCheckBox:
                     if value == 'enable':
                         widget.setCheckState(2)
@@ -48,7 +35,38 @@ class Util:
                 elif type(widget) == QComboBox:
                     widget.setCurrentIndex(widget.findData(value))
 
-    #contentsのリストから設定Dictを出力
+    #ファイルを読み込んで、dict形式でreturnする
+    #filenameを省略した場合はdefault.jsonを読み込む
+    @staticmethod
+    def load_config(filename = ''):
+        if filename == '':
+            base = os.path.dirname(os.path.abspath(__file__))
+            filename = os.path.normpath(os.path.join(base, './settings/default.json'))
+        elif filename == 'last':
+            base = os.path.dirname(os.path.abspath(__file__))
+            filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
+        try:
+            with open(filename) as f:
+                return json.load(f)
+        except IOError:
+
+    #config_dictをもとに設定ファイルを作成して保存
+    #filenameを省略した場合は、default.jsonに保存
+    @staticmethod
+    def save_config(config_dict, filename=''):
+        #文字列をExportファイルで出力
+        if filename == '':
+            base = os.path.dirname(os.path.abspath(__file__))
+            filename = os.path.normpath(os.path.join(base, './settings/default.json'))
+        elif filename == 'last':
+            base = os.path.dirname(os.path.abspath(__file__))
+            filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
+        try:
+            with open(filename, 'w') as f:
+                f.write(json.dumps(config_dict, indent=4))
+        except IOError:
+
+    #contentsのリストから設定dictを出力
     @staticmethod
     def config_dict(contents):
         dict = {}
@@ -69,12 +87,21 @@ class Util:
 
         return dict
 
+    #itemsファイルを読み込む
+    @staticmethod
+    def load_items():
+        base = os.path.dirname(os.path.abspath(__file__))
+        items_file = os.path.normpath(os.path.join(base, './settings/items.json'))
+        with open(items_file) as f:
+            items = json.load(f)
+        return items
+
     #設定ファイルで入力がない部分をデフォルト値で補完
     @staticmethod
     def fill_by_default(config_dict, default_config_dict):
         config = config_dict
         for key, default in default_config_dict.items():
-            #keyが'data'の場合には、すべてのdataタブにデフォルト設定を適用
+            #keyが'tab'の場合には、すべてのdataタブにデフォルト設定を適用
             if key == 'tab':
                 data_default_config = default_config_dict['tab']['data']
                 for key, conf in config_dict['tab'].items():
@@ -91,45 +118,6 @@ class Util:
                     config[key] = default
 
         return config
-
-    #デフォルト設定ファイルを読み込む。
-    @staticmethod
-    def load_default_config():
-        base = os.path.dirname(os.path.abspath(__file__))
-        default_file = os.path.normpath(os.path.join(base, '../../../settings/default.json'))
-        with open(default_file) as f:
-            default_config_dict = json.load(f)
-
-        return default_config_dict
-
-    #itemsファイルを読み込む
-    @staticmethod
-    def load_items():
-        base = os.path.dirname(os.path.abspath(__file__))
-        items_file = os.path.normpath(os.path.join(base, '../../../settings/items.json'))
-        with open(items_file) as f:
-            items = json.load(f)
-        return items
-
-    #
-    @staticmethod
-    def load_config(filename):
-        with open(filename) as f:
-            return json.load(f)
-
-    @staticmethod
-    def save_export_file(filename, config_dict):
-        #文字列をExportファイルで出力
-        if filename != '':
-            with open(filename, 'w') as f:
-                f.write(json.dumps(config_dict, indent=4))
-            
-    @staticmethod
-    def export_default_config(default):
-        base = os.path.dirname(os.path.abspath(__file__))
-        default_file = os.path.normpath(os.path.join(base, '../../../settings/default.json'))
-        with open(default_file, 'w') as f:
-            f.write(json.dumps(default, indent=4))
 
     #Widgetのリストを受け取り、QHBoxLayoutにセットして返す
     @staticmethod
@@ -154,7 +142,6 @@ class Util:
     @staticmethod
     def Hbox(widget_list):
         Hbox_widget = QWidget()
-        #Hbox_widget.setContentsMargins(0,0,0,0)
         Hbox_widget.setLayout(Util.Hlayout(widget_list))
         return Hbox_widget
 
@@ -182,6 +169,7 @@ class Util:
         for key, value in colors.items():
             combo.addItem(key, value)
 
+    #linestyle指定用のcomboBoxをセット
     @staticmethod
     def set_line_style_combo(combo):
         combo.setMinimumWidth(80)
@@ -193,6 +181,7 @@ class Util:
         for key, value in lines.items():
             combo.addItem(key, value)
 
+    #marker指定用のcomboBoxをセット
     @staticmethod
     def set_marker_style_combo(combo):
         combo.setMinimumWidth(80)
