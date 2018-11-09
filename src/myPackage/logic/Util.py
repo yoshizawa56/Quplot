@@ -11,6 +11,7 @@ import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
                             QLineEdit, QCheckBox, QComboBox,
                             QComboBox, QMessageBox)
+from PyQt5.QtGui import QIcon, QPainter, QPixmap, QBrush, QColor
 import os
 
 class Util:
@@ -168,7 +169,19 @@ class Util:
         #default.jsonから色のリストを取得してセット
         colors = Util.load_items()['colors']
         for key, value in colors.items():
-            combo.addItem(key, value)
+            combo.addItem(Util.color_icon(value), key, value)
+
+    #colorに対応する色の円のQIconを返す
+    @staticmethod
+    def color_icon(color):
+        pix = QPixmap(40,40)
+        painter = QPainter()
+        painter.begin(pix)
+        painter.setBrush(QBrush(QColor(color)))
+        painter.drawEllipse(20, 20, 40, 40)
+
+        return QIcon(pix)
+
 
     #linestyle指定用のcomboBoxをセット
     @staticmethod
