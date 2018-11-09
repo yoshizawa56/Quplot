@@ -9,7 +9,7 @@ __date__    = "06 November 2018"
 
 import numpy as np
 from matplotlib import pyplot as plt
-from PyQt5.Widgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Plot:

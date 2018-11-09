@@ -10,7 +10,7 @@ __status__ = "production"
 __version__ = "0.1.0"
 __date__    = "06 November 2018"
 
-from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog
+from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog, QMessageBox
 import os
 from .GeneralSetting import GeneralSetting
 from .DataTab import DataTab
@@ -92,7 +92,7 @@ class PlotField(QWidget):
                 msg.exec_()
 
     def import_last_plot(self):
-        self.set_config(Util.load_config(filename), 'last')
+        self.set_config(Util.load_config('last'))
 
     def config_dict(self):
         config = {}

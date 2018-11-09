@@ -171,14 +171,18 @@ class Util:
         for key, value in colors.items():
             combo.addItem(Util.color_icon(value), key, value)
 
+
     #colorに対応する色の円のQIconを返す
     @staticmethod
     def color_icon(color):
-        pix = QPixmap(40,40)
-        painter = QPainter()
-        painter.begin(pix)
-        painter.setBrush(QBrush(QColor(color)))
-        painter.drawEllipse(20, 20, 40, 40)
+        pix = QPixmap(50,50)
+        # painter = QPainter()
+        # painter.begin(pix)
+        # painter.setBrush(QBrush(QColor(color)))
+        # painter.drawEllipse(2, 2, 35, 35)
+        # painter.end()
+
+        pix.fill(QColor(color))
 
         return QIcon(pix)
 
