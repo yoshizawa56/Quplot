@@ -117,12 +117,12 @@ class General(QWidget):
         ]
 
     def apply(self):
-        current_default = Util.load_default_config()
+        current_default = Util.load_config()
         for key, value in Util.config_dict(self.contents).items():
             current_default[key] = value
 
-        #TODO defaultファイルのExportの実装
-        Util.export_default_config(current_default)
+        #defaultファイルのExport
+        Util.save_config(current_default)
 
     def set_default_config(self, default_config_dict):
-        Util.set_default(default_config_dict, self.contents)
+        Util.set_config(default_config_dict, self.contents, 'default')

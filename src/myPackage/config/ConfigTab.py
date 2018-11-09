@@ -44,7 +44,7 @@ class ConfigTab(QTabWidget):
         self.setFixedSize(500, 400)
 
     def set_default_config(self):
-        default_config_dict = Util.load_default_config()
+        default_config_dict = Util.load_config()
         self.general.set_default_config(default_config_dict)
         self.data.set_default_config(default_config_dict['tab']['data'])
         self.x_axis.set_default_config(default_config_dict['X_axis'])
