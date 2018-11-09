@@ -70,7 +70,7 @@ class DataField(QWidget):
         self.layout.addWidget(self.data)
 
         #追加されたTabにデフォルト設定を適用
-        self.data.set_default_config(Util.load_default_config()['tab']['data'])
+        self.data.set_default_config(Util.load_config()['tab']['data'])
 
     def config_dict(self):
         config = Util.config_dict(self.contents)
@@ -80,7 +80,7 @@ class DataField(QWidget):
         return config
 
     def set_default_config(self, default_config_dict):
-        Util.set_default(default_config_dict, self.contents)
+        Util.set_config(default_config_dict, self.contents, 'default')
         #子Widgetにデフォルト設定を適用
         self.data.set_default_config(default_config_dict)
 

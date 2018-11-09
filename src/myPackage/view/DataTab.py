@@ -55,14 +55,14 @@ class DataTab(QTabWidget):
         #設定の分だけタブを追加
         for key in config_dict['tab']:
             widget = DataField(self)
-            widget.set_default_config(Util.load_default_config()['tab']['data'])
+            widget.set_default_config(Util.load_config()['tab']['data'])
             widget.set_config(config_dict['tab'][key])
             self.insertTab(self.count, widget, 'Data' + str(self.count + 1))
             self.count += 1
 
     def add_tab(self):
         self.insertTab(self.count, DataField(self), 'Data' + str(self.count+1))
-        self.widget(self.count).set_default_config(Util.load_default_config()['tab']['data'])
+        self.widget(self.count).set_default_config(Util.load_config()['tab']['data'])
         self.count += 1
 
     def delete_tab(self, index):

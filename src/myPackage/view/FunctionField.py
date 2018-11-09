@@ -103,7 +103,7 @@ class FunctionField(QWidget):
         return config
 
     def set_default_config(self, default_config_dict):
-        Util.set_default(default_config_dict, self.contents)
+        Util.set_config(default_config_dict, self.contents, 'default')
 
     def set_config(self, config_dict):
         Util.set_config(config_dict, self.contents)

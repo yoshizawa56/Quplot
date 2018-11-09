@@ -107,7 +107,7 @@ class AxisSetting(QGroupBox):
 
     def set_default_config(self, default_config_dict):
         default = default_config_dict[self.axis + '_axis']
-        Util.set_default(default, self.contents)
+        Util.set_config(default, self.contents, 'default')
 
     def set_config(self, config_dict):
         config = config_dict[self.axis + '_axis']
