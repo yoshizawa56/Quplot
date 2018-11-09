@@ -83,7 +83,13 @@ class PlotField(QWidget):
     def import_plot(self):
         filename = QFileDialog.getOpenFileName(self, "Open file")
         if filename[0] != '':
-            self.set_config(Util.load_config(filename[0]))
+            try:
+                config = Util.load_config(filename[0])
+                self.set_config(config)
+            except IOError:
+                msg = QMessageBox()
+                msg.setText('ファイルが開けませんでした')
+                msg.exec_()
 
     def import_last_plot(self):
         self.set_config(Util.load_config(filename), 'last')
