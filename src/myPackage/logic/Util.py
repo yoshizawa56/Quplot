@@ -98,6 +98,15 @@ class Util:
             items = json.load(f)
         return items
 
+    #itemsファイルに書き込む
+    @staticmethod
+    def load_items(items):
+        base = os.path.dirname(os.path.abspath(__file__))
+        items_file = os.path.normpath(os.path.join(base, './settings/items.json'))
+        with open(items_file, 'w') as f:
+            f.write(json.dumps(items, indent=4))
+        return items
+
     #設定ファイルで入力がない部分をデフォルト値で補完
     @staticmethod
     def fill_by_default(config_dict, default_config_dict):
@@ -125,7 +134,6 @@ class Util:
     @staticmethod
     def Hlayout(widget_list):
         layout = QHBoxLayout()
-        #layout.setContentsMargin(0,0,0,0)
         for widget in widget_list:
             layout.addWidget(widget)
         layout.addStretch()
@@ -176,12 +184,6 @@ class Util:
     @staticmethod
     def color_icon(color):
         pix = QPixmap(50,50)
-        # painter = QPainter()
-        # painter.begin(pix)
-        # painter.setBrush(QBrush(QColor(color)))
-        # painter.drawEllipse(2, 2, 35, 35)
-        # painter.end()
-
         pix.fill(QColor(color))
 
         return QIcon(pix)
