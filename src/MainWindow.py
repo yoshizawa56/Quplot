@@ -17,24 +17,22 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.plot_tab)
 
         menubar = self.menuBar()
-        file_menu = menubar.addMenu('&File')
-        config_action = QAction('&Default config', self)
-        config_action.triggered.connect(self.open_config)
-        file_menu.addAction(config_action)
+        app_menu = menubar.addMenu('&Quplot')
 
-    def open_config(self):
-        config_tab = SubWindow()
+        #defaultコンフィグ
+        config_action = QAction('&Default value config', self)
+        config_action.triggered.connect(self.open_default_config)
+        app_menu.addAction(config_action)
+
+        #marker color設定
+        color_action = QAction('&Colors and Markers', self)
+        color_action.triggered.connect(self.open_color_config)
+        app_menu.addAction(config_action)
+
+    def open_default_config(self):
+        config_tab = SubWindow('default')
         config_tab.show()
 
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     test_widget = PlotTab()
-
-#     main_window = QMainWindow()
-#     main_window.setWindowTitle("GUI Plot Test")
-#     main_window.setCentralWidget(test_widget)
-#     main_window.resize(100,300)
-    
-
-#     main_window.show()
-#     sys.exit(app.exec_())
+    def open_color_config(self):
+        config_tab = SubWindow('color')
+        config_tab.show()
