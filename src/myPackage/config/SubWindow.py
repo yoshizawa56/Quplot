@@ -12,11 +12,15 @@ __date__    = "08 November 2018"
 
 from PyQt5.QtWidgets import QDialog, QHBoxLayout
 from .ConfigTab import ConfigTab
+from .ColorMarkerTab import ColorMarkerTab
 
 class SubWindow:
-    def __init__(self, parent=None):
+    def __init__(self, mode, parent=None):
         self.dialog = QDialog(parent)
-        self.config_tab = ConfigTab()
+        if mode == 'default':
+            self.config_tab = ConfigTab()
+        else:
+            self.config_tab = ColorMarkerTab()
 
         layout = QHBoxLayout()
         layout.addWidget(self.config_tab)
