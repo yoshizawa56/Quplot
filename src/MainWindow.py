@@ -27,12 +27,17 @@ class MainWindow(QMainWindow):
         #marker color設定
         color_action = QAction('&Colors and Markers', self)
         color_action.triggered.connect(self.open_color_config)
-        app_menu.addAction(config_action)
+        app_menu.addAction(color_action)
 
     def open_default_config(self):
         config_tab = SubWindow('default')
         config_tab.show()
+        self.reset()
 
     def open_color_config(self):
         config_tab = SubWindow('color')
         config_tab.show()
+        self.reset()
+
+    def reset(self):
+        self.__init__()

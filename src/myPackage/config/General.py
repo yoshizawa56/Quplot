@@ -8,10 +8,11 @@
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "08 November 2018"
+__date__    = "12 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout, QCheckBox,
-        QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog)
+        QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog,
+        QMessageBox)
 from ..logic.Util import Util
 import os
 
@@ -123,6 +124,9 @@ class General(QWidget):
 
         #defaultファイルのExport
         Util.save_config(current_default)
+        msg = QMessageBox()
+        msg.setText('設定を適用しました')
+        msg.exec_()
 
     def set_default_config(self, default_config_dict):
         Util.set_config(default_config_dict, self.contents, 'default')

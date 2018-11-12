@@ -11,7 +11,8 @@ __version__ = "0.1.0"
 __date__    = "12 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QListWidget, QListWidgetItem, QGroupBox, 
-                    QLabel, QLineEdit, QPushButton, QColorDialog)
+                    QLabel, QLineEdit, QPushButton, QColorDialog, QHBoxLayout,
+                    QMessageBox, QAbstractItemView)
 from ..logic.Util import Util
 import os
 
@@ -22,9 +23,13 @@ class ColorConfig(QWidget):
 
         self.value_reference.clicked.connect(self.open_color_dialog)
         self.add_button.clicked.connect(self.add_color)
-        self.delete_button.clicked.connect(self.delete_item)
+        self.delete_button.clicked.connect(self.delete_color)
         self.apply_button.clicked.connect(self.apply)
-        #self.color_list.setEnableDragみたいなやつ
+
+        self.color_list.setAcceptDrops(True)
+        self.color_list.setDragEnabled(True)
+        self.color_list.setDragDropOverwriteMode(False)
+        self.color_list.setDragDropMode(QAbstractItemView.InternalMove)
 
     def setup_ui(self):
         #色追加用入力領域（左側）
@@ -64,7 +69,7 @@ class ColorConfig(QWidget):
 
         #colorのリスト（右側）
         self.color_list = QListWidget()
-        self.set_colot_list(self.color_list)
+        self.set_color_list(self.color_list)
         
         #deleteボタン（左詰め）
         self.apply_button = QPushButton('apply')
@@ -74,12 +79,12 @@ class ColorConfig(QWidget):
         delete_layout.addWidget(self.apply_button)
         delete_layout.addWidget(self.delete_button)
         delete_widget = QWidget()
-        delte_widget.setLayout(delete_layout)
+        delete_widget.setLayout(delete_layout)
 
-        right_box = Util.VBox(
+        right_box = Util.Vbox(
             [
                 self.color_list,
-                self.delete_widget
+                delete_widget
             ]
         )
 
@@ -93,7 +98,7 @@ class ColorConfig(QWidget):
             )
         )
 
-    def set_color_list(color_list):
+    def set_color_list(self, color_list):
         colors = Util.load_items()['colors']
         for name, color in colors.items():
             item = self.set_item(name, color)
@@ -120,14 +125,18 @@ class ColorConfig(QWidget):
             self.value_edit.setText(color.name())
 
     def delete_color(self):
-        self.color_list.removeItemWidget(self.color_list.currentItem())
+        item = self.color_list.takeItem(self.color_list.currentRow())
+        item = None
 
     def apply(self):
         current_items = Util.load_items()
         colors = {}
         for i in range(self.color_list.count()):
             name, color = self.color_list.item(i).data(32)
-            colors.update(name=color)
-        current_items['color'] = colors
+            colors[name] = color
+        current_items['colors'] = colors
 
         Util.save_items(current_items)
+        msg = QMessageBox()
+        msg.setText('設定を適用しました')
+        msg.exec_()
