@@ -1,3 +1,3 @@
-# PyQtPlot
+# Quplot
 PyQtによるmatplotlibのGUIアプリ
-![DEMO](https://github.com/yoshizawa56/PyQtPlot/blob/master/screen.gif)
+![DEMO](https://github.com/yoshizawa56/Quplot/blob/master/screen.gif)
