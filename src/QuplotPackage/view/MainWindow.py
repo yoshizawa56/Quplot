@@ -1,11 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#widgetのテスト用プログラム
+
+'''
+MainWindowのWidget
+'''
+
+__author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
+__version__ = "0.9.0"
+__date__    = "14 November 2018"
 
 import sys
 from PyQt5.QtWidgets import QMainWindow, QAction
-from .myPackage.view.PlotTab import PlotTab
-from .myPackage.config.SubWindow import SubWindow
+from .PlotTab import PlotTab
+from ..config.SubWindow import SubWindow
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -29,6 +36,8 @@ class MainWindow(QMainWindow):
         color_action.triggered.connect(self.open_color_config)
         app_menu.addAction(color_action)
 
+        self.move(160,40)
+
     def open_default_config(self):
         config_tab = SubWindow('default')
         config_tab.show()
@@ -40,4 +49,8 @@ class MainWindow(QMainWindow):
         self.reset()
 
     def reset(self):
+        self.plot_tab = None
+        self.setCentralWidget(None)
+        self.close()
         self.__init__()
+        self.show()

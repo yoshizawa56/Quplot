@@ -6,9 +6,8 @@ Export、画像保存用のWidget
 '''
 
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
-__status__ = "production"
-__version__ = "0.1.0"
-__date__    = "05 November 2018"
+__version__ = "0.9.0"
+__date__    = "14 November 2018"
 
 from PyQt5.QtWidgets import (QGroupBox, QPushButton,
                     QLabel, QLineEdit, QFileDialog, QMessageBox)
@@ -70,13 +69,13 @@ class SaveFigure(QGroupBox):
             #デフォルトの保存先が定義されていない場合は終了
             if not conf.get('fig_base_dir', False):
                 msg = QMessageBox()
-                msg.setText('デフォルトの保存先が設定されていません。設定画面から設定を行ってください。')
-                msd.exec_()
+                msg.setText('デフォルトの保存先が設定されていません。\n設定画面から設定を行ってください。')
+                msg.exec_()
                 return
 
             base = Util.load_config()['fig_base_dir']
-            time = dt.now().strftime('%Y_%m_%d_%H_%M')
-            filename = base + time + '.pdf'
+            time = dt.now().strftime('%Y_%m_%d_%H_%M_%S')
+            filename = base + '/' + time + '.pdf'
         else:
             filename = self.file_edit.text()
         self.parent.canvas.fig.savefig(filename)
