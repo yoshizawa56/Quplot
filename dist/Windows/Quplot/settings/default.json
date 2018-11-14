@@ -1,0 +1,33 @@
+{
+    "keyword": "##",
+    "title_font": "16",
+    "legend_status": "enable",
+    "legend_position": "best",
+    "legend_font": "16",
+    "tick_font": "12",
+    "tab": {
+        "data": {
+            "data_type": "File",
+            "legend_style": "LaTeX",
+            "linestyle": "-",
+            "line_color": "Auto",
+            "line_width": "1",
+            "marker": "o",
+            "marker_color": "Auto",
+            "marker_size": "2"
+        }
+    },
+    "X_axis": {
+        "style": "LaTeX",
+        "font": "16",
+        "index": "0",
+        "scale": "Linear"
+    },
+    "Y_axis": {
+        "style": "LaTeX",
+        "font": "16",
+        "index": "1",
+        "scale": "Linear"
+    },
+    "fig_base_dir": "/Users/T.Yoshizawa/fig"
+}
