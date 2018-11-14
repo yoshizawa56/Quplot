@@ -2,13 +2,12 @@
 # -*- coding: utf-8 -*-
 
 '''
-デフォルト設定の変更用Widget
+軸周りのデフォルト設定の変更用Widget
 '''
 
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
-__status__ = "production"
-__version__ = "0.1.0"
-__date__    = "12 November 2018"
+__version__ = "0.9.0"
+__date__    = "14 November 2018"
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QVBoxLayout,
         QLabel, QLineEdit, QHBoxLayout, QComboBox, QFileDialog,
