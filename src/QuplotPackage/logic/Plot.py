@@ -3,9 +3,8 @@ plotを実行するクラス
 '''
 
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
-__status__ = "production"
-__version__ = "0.1.0"
-__date__    = "06 November 2018"
+__version__ = "0.9.0"
+__date__    = "14 November 2018"
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -16,6 +15,9 @@ class Plot:
     #Canvasクラスとconfig_dictを受け取り、プロットを実行
     @staticmethod
     def execute(canvas, config_dict):
+        plt.rcParams["mathtext.fontset"] = 'cm'
+        plt.rcParams["font.family"] = 'Times New Roman'
+
         #長いから省略名を設定
         axes = canvas.axes
         c = config_dict
@@ -55,12 +57,16 @@ class Plot:
                 if conf.get('function_range', False):
                     min, max = conf['function_range'].split(':')
                     min, max = float(min), float(max)
+                elif c['X_axis'].get('range', False):
+                    min, max = c['X_axis']['range'].split(':')
+                    min, max = float(min), float(max)
                 else:
-                    #実装
-                    print('test')
+                    msg = QMessageBox()
+                    msg.setText('Functionの定義域が定まりませんでした。\n Rangeを記述してください。')
+                    msg.exec_()
+                    return
 
-                # min, max = 0, 300
-                x = np.arange(min, max, (max-min)/500)
+                x = np.arange(min, max, (max-min)/1000)
 
                 #function領域に書かれているコードを実行してyのデータを構築
                 y = eval(conf['function'])
@@ -102,11 +108,10 @@ class Plot:
                 label = conf['title'].replace(u"\xa5", "\\")
                 if conf['style'] == 'LaTeX':
                     label = '$' + label + '$'
-                    font = 'serif'
                 else:
-                    font = 'Times New Roman'
+                    font = 'Arial'
                 if axis == 'X':
-                    axes.set_xlabel(label, fontsize=conf['font'], fontname=font)
+                    axes.set_xlabel(label, fontsize=conf['font'])
                 else:
                     axes.set_ylabel(label, fontsize=conf['font'])
 

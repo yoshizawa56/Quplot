@@ -3,8 +3,7 @@ Utilクラス
 '''
 
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
-__status__ = "production"
-__version__ = "0.1.0"
+__version__ = "0.9.0"
 __date__    = "14 November 2018"
 
 import json
@@ -43,9 +42,9 @@ class Util:
     def load_config(filename = ''):
         base = os.path.dirname(os.path.abspath(__file__))
         if filename == '':
-            filename = os.path.normpath(os.path.join(base, './settings/default.json'))
+            filename = os.path.normpath(os.path.join(base, '../../settings/default.json'))
         elif filename == 'last':
-            filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
+            filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
         with open(filename) as f:
             return json.load(f)
 
@@ -56,9 +55,9 @@ class Util:
         #文字列をExportファイルで出力
         base = os.path.dirname(os.path.abspath(__file__))
         if filename == '':
-            filename = os.path.normpath(os.path.join(base, './settings/default.json'))
+            filename = os.path.normpath(os.path.join(base, '../../settings/default.json'))
         elif filename == 'last':
-            filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
+            filename = os.path.normpath(os.path.join(base, '../../settings/last_plot.json'))
         try:
             with open(filename, 'w') as f:
                 f.write(json.dumps(config_dict, indent=4))
@@ -92,7 +91,7 @@ class Util:
     @staticmethod
     def load_items():
         base = os.path.dirname(os.path.abspath(__file__))
-        items_file = os.path.normpath(os.path.join(base, './settings/items.json'))
+        items_file = os.path.normpath(os.path.join(base, '../../settings/items.json'))
         with open(items_file) as f:
             items = json.load(f)
         return items
@@ -101,7 +100,7 @@ class Util:
     @staticmethod
     def save_items(items):
         base = os.path.dirname(os.path.abspath(__file__))
-        items_file = os.path.normpath(os.path.join(base, './settings/items.json'))
+        items_file = os.path.normpath(os.path.join(base, '../../settings/items.json'))
         with open(items_file, 'w') as f:
             f.write(json.dumps(items, indent=4))
 
