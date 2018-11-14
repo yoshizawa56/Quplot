@@ -5,7 +5,7 @@ Utilクラス
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
 __status__ = "production"
 __version__ = "0.1.0"
-__date__    = "09 November 2018"
+__date__    = "14 November 2018"
 
 import json
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout,
                             QComboBox, QMessageBox)
 from PyQt5.QtGui import QIcon, QPainter, QPixmap, QBrush, QColor
 import os
+import sys
 
 class Util:
     #入力領域に設定値をセット
@@ -40,11 +41,10 @@ class Util:
     #filenameを省略した場合はdefault.jsonを読み込む
     @staticmethod
     def load_config(filename = ''):
+        base = os.path.dirname(os.path.abspath(__file__))
         if filename == '':
-            base = os.path.dirname(os.path.abspath(__file__))
             filename = os.path.normpath(os.path.join(base, './settings/default.json'))
         elif filename == 'last':
-            base = os.path.dirname(os.path.abspath(__file__))
             filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
         with open(filename) as f:
             return json.load(f)
@@ -54,11 +54,10 @@ class Util:
     @staticmethod
     def save_config(config_dict, filename=''):
         #文字列をExportファイルで出力
+        base = os.path.dirname(os.path.abspath(__file__))
         if filename == '':
-            base = os.path.dirname(os.path.abspath(__file__))
             filename = os.path.normpath(os.path.join(base, './settings/default.json'))
         elif filename == 'last':
-            base = os.path.dirname(os.path.abspath(__file__))
             filename = os.path.normpath(os.path.join(base, './settings/last_plot.json'))
         try:
             with open(filename, 'w') as f:

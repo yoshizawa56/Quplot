@@ -22,6 +22,7 @@ class General(QWidget):
         self.setup_ui()
 
         self.apply_button.clicked.connect(self.apply)
+        self.save_reference.clicked.connect(self.oepn_dialog)
 
     def setup_ui(self):
         #デフォルト保存先
@@ -61,8 +62,11 @@ class General(QWidget):
         self.legend_checkbox = QCheckBox()
         legend_position_label = QLabel('Position : ')
         self.legend_combo = QComboBox()
-        self.legend_combo.addItem('Text', 'Text')
-        self.legend_combo.addItem('LaTeX', 'LaTeX')
+        self.legend_combo.addItem('Best', 'best')
+        self.legend_combo.addItem('Upper Right', 'upper right')
+        self.legend_combo.addItem('Upper Left', 'upper left')
+        self.legend_combo.addItem('Lower Right', 'lower right')
+        self.legend_combo.addItem('Lower Left', 'lower left')
         legend_font_label = QLabel('Font size : ')
         self.legend_font_edit = QLineEdit()
         self.title_font_edit.setMaximumWidth(25)
@@ -130,3 +134,7 @@ class General(QWidget):
 
     def set_default_config(self, default_config_dict):
         Util.set_config(default_config_dict, self.contents, 'default')
+
+    def oepn_dialog(self):
+        dir_name = QFileDialog.getExistingDirectory(self)
+        self.save_edit.setText(dir_name)

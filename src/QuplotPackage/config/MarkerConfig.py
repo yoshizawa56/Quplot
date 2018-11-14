@@ -102,7 +102,7 @@ class MarkerConfig(QWidget):
             marker_list.addItem(item)
 
     def set_item(self, name, marker):
-        text = name + ' : ' + marker
+        text = 'Simbol : ' + name + ', Value : ' + marker
         item = QListWidgetItem(text)
         data = (name, marker)
         item.setData(32, data)
