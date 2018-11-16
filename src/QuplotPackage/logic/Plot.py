@@ -3,13 +3,13 @@ plotを実行するクラス
 '''
 
 __author__ = "T.Yoshizawa <toru.yoshi.5.1@gmail.com>"
-__version__ = "0.9.0"
+__version__ = "0.9.1"
 __date__    = "14 November 2018"
 
 import numpy as np
 from matplotlib import pyplot as plt
 from PyQt5.QtWidgets import QMessageBox
-
+import os
 
 class Plot:
     #Canvasクラスとconfig_dictを受け取り、プロットを実行
@@ -34,7 +34,13 @@ class Plot:
                     continue
 
                 try:
-                    data = np.loadtxt(conf['file'])
+                    #拡張子が.csvの場合は区切り文字を','に変更
+                    filename = conf['file']
+                    root, ext = os.path.splitext(filename)
+                    opt = {}
+                    if ext == '.csv':
+                        opt['delimiter'] = ','
+                    data = np.loadtxt(filename, **opt)
                 except IOError:
                     msg = QMessageBox()
                     msg.setText('ファイルが開けませんでした')
