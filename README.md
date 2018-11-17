@@ -81,6 +81,8 @@ PyQtによるmatplotlibのGUIアプリ
 
 ## テキスト形式
 区切り文字はスペースまたはタブ
+(sample_data/sample.txtを参照)
 
 ## CSV形式
 区切り文字はカンマ
+（sample_data/sample.csvを参照）
