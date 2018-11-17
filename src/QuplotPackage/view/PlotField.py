@@ -10,6 +10,7 @@ __version__ = "0.9.0"
 __date__    = "14 November 2018"
 
 from PyQt5.QtWidgets import QWidget, QPushButton, QFileDialog, QMessageBox
+from PyQt5 import QtCore
 import os
 from .GeneralSetting import GeneralSetting
 from .DataTab import DataTab
@@ -73,6 +74,12 @@ class PlotField(QWidget):
             self.setting,
             self.save_figure
         ]
+
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Enter:
+            self.plot()
+        elif e.key() == QtCore.Qt.Key_Return:
+            self.plot()
 
     def export_plot(self):
         filename = QFileDialog.getSaveFileName(self, "Open file")

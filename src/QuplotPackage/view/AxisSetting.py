@@ -113,7 +113,6 @@ class AxisSetting(QGroupBox):
         Util.set_config(config, self.contents)
 
     def set_index_item(self, items, titles):
-        #TODO 実装
         for i in range(len(items)):
             self.index_combo.setItemText(i, items[i])
         if len(items) < 10:

@@ -131,7 +131,6 @@ class FileField(QWidget):
                 items = items.replace('#', '').replace('\n','').split(',')
                 if titles[0:2] == '##':
                     titles = titles.replace('#', '').replace('\n','').split(',')
-                    print(titles)
                 else:
                     titles = False
                 self.parent.parent.x_axis.set_index_item(items, titles)
