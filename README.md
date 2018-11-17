@@ -5,12 +5,10 @@ PyQtによるmatplotlibのGUIアプリ
 # インストール方法
 実行可能ファイルとしてビルドされたプログラムを利用します。
 ## MAC
-[https://github.com/yoshizawa56/Quplot/releases](https://github.com/yoshizawa56/Quplot/releases) からQuplot.app.zipをダウンロード・解凍して、できた.appファイルをAppricationに追加して使用してください。
+[https://github.com/yoshizawa56/Quplot/releases](https://github.com/yoshizawa56/Quplot/releases) からQuplot.app.zipをダウンロード・解凍して、できた.appファイルをApplicationsに追加して使用してください。
 
 ## Windows
-未対応（対応予定）
-
-
+未対応
 
 # 使い方
 ## プロットの作成
