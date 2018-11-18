@@ -8,7 +8,7 @@ PyQtによるmatplotlibのGUIアプリ
 [https://github.com/yoshizawa56/Quplot/releases](https://github.com/yoshizawa56/Quplot/releases) からQuplot.app.zipをダウンロード・解凍して、作成された.appファイルをAppricationに追加して使用してください。
 
 ## Windows
-[https://github.com/yoshizawa56/Quplot/releases](https://github.com/yoshizawa56/Quplot/releases)からQuplot.Windows.zipをダウンロード・解凍して、作成されたディレクトリにあるQuplot.exeを実行して使用してください。（多分動くと思いますが、UIの調整をしていないため、見た目が壊滅的です。）
+未対応
 
 # 使い方
 ## プロットの作成
