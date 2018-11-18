@@ -40,7 +40,7 @@ class Util:
     #filenameを省略した場合はdefault.jsonを読み込む
     @staticmethod
     def load_config(filename = ''):
-        base = os.path.dirname(os.path.abspath(__file__))
+        base = os.path.dirname(os.path.abspath(Util.__file__()))
         if filename == '':
             filename = os.path.normpath(os.path.join(base, '../../settings/default.json'))
         elif filename == 'last':
@@ -53,7 +53,7 @@ class Util:
     @staticmethod
     def save_config(config_dict, filename=''):
         #文字列をExportファイルで出力
-        base = os.path.dirname(os.path.abspath(__file__))
+        base = os.path.dirname(os.path.abspath(Util.__file__()))
         if filename == '':
             filename = os.path.normpath(os.path.join(base, '../../settings/default.json'))
         elif filename == 'last':
@@ -90,7 +90,7 @@ class Util:
     #itemsファイルを読み込む
     @staticmethod
     def load_items():
-        base = os.path.dirname(os.path.abspath(__file__))
+        base = os.path.dirname(os.path.abspath(Util.__file__()))
         items_file = os.path.normpath(os.path.join(base, '../../settings/items.json'))
         with open(items_file) as f:
             items = json.load(f)
@@ -99,7 +99,7 @@ class Util:
     #itemsファイルに書き込む
     @staticmethod
     def save_items(items):
-        base = os.path.dirname(os.path.abspath(__file__))
+        base = os.path.dirname(os.path.abspath(Util.__file__()))
         items_file = os.path.normpath(os.path.join(base, '../../settings/items.json'))
         with open(items_file, 'w') as f:
             f.write(json.dumps(items, indent=4))
@@ -126,6 +126,12 @@ class Util:
                     config[key] = default
 
         return config
+
+    def __file__():
+        if os.name == 'nt':
+            return sys.argv[0]
+        else:
+            return __file__
 
     #Widgetのリストを受け取り、QHBoxLayoutにセットして返す
     @staticmethod
